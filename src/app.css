@@ -1,3 +1,18 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+@layer base {
+	/* Prevent table from creating new stacking context */
+	#links-table {
+		position: static;
+	}
+
+	/* Tooltip styling override */
+	.tooltip {
+		position: fixed;
+		z-index: 9999;
+		word-break: break-all;
+		white-space: normal;
+	}
+}
