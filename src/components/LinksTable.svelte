@@ -58,10 +58,10 @@
 	onMount(fetchLinks);
 </script>
 
-<div class="min-w-full overflow-x-auto rounded-lg shadow">
+<div class="min-w-full rounded-lg shadow">
 	<div class="mb-4 flex flex-col items-center justify-between gap-4 px-0 sm:flex-row sm:px-4">
-		<h2 class="text-lg font-semibold text-gray-300 sm:text-xl">Links</h2>
-		<div class="flex w-full items-center gap-4 sm:w-auto">
+		<div class="flex w-full justify-between gap-4">
+			<h2 class="text-2xl font-bold">Your Links</h2>
 			<button
 				onclick={fetchLinks}
 				class="rounded-full p-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white"
@@ -95,70 +95,95 @@
 			Error loading links: {error}
 		</div>
 	{:else}
-		<Table hoverable={true} items={links}>
-			<TableHead>
-				<TableHeadCell
-					sort={(a: LinkObject, b: LinkObject) => a.shortened.localeCompare(b.shortened)}
-					>Short URL</TableHeadCell
-				>
-				<TableHeadCell
-					sort={(a: LinkObject, b: LinkObject) => a.redirect_to.localeCompare(b.redirect_to)}
-					>Original URL</TableHeadCell
-				>
-				<TableHeadCell
-					sort={(a: LinkObject, b: LinkObject) => a.visits - b.visits}
-					defaultDirection="desc"
-					defaultSort
-				>
-					Visits
-				</TableHeadCell>
-				<TableHeadCell
-					sort={(a: LinkObject, b: LinkObject) =>
-						new Date(a.created_at).getTime() - new Date(b.created_at).getTime()}
-					>Created At</TableHeadCell
-				>
-				{#if isAdmin}
-					<TableHeadCell>Owner</TableHeadCell>
-					<TableHeadCell>Key</TableHeadCell>
-				{/if}
-			</TableHead>
-			<TableBody>
-				<TableBodyRow slot="row" let:item>
-					{@const link = item as LinkObject}
-					<TableBodyCell>
-						<a
-							href={`${API_URL}/${link.shortened}`}
-							class="text-blue-500 hover:text-blue-400"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							{link.shortened}
-						</a>
-					</TableBodyCell>
-					<TableBodyCell>
-						<a
-							href={link.redirect_to}
-							class="text-blue-500 hover:text-blue-400"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							{link.redirect_to.length > 50
-								? `${link.redirect_to.substring(0, 50)}...`
-								: link.redirect_to}
-						</a>
-					</TableBodyCell>
-					<TableBodyCell>{(link as LinkObject).visits}</TableBodyCell>
-					<TableBodyCell>{new Date(link.created_at).toLocaleDateString()}</TableBodyCell>
+		<div class="overflow-x-auto rounded-lg shadow">
+			<Table
+				hoverable={true}
+				items={links}
+				class="min-w-[600px] md:min-w-[800px] "
+				filter={(t, term) => {
+					return (
+						t.shortened.toLowerCase().includes(term.toLowerCase()) ||
+						t.redirect_to.toLowerCase().includes(term.toLowerCase()) ||
+						t.secret_key.name.toLowerCase().includes(term.toLowerCase())
+					);
+				}}
+			>
+				<TableHead>
+					<TableHeadCell
+						class="whitespace-nowrap"
+						sort={(a: LinkObject, b: LinkObject) => a.shortened.localeCompare(b.shortened)}
+						>Short URL</TableHeadCell
+					>
+					<TableHeadCell
+						class="whitespace-nowrap"
+						sort={(a: LinkObject, b: LinkObject) => a.redirect_to.localeCompare(b.redirect_to)}
+						>Original URL</TableHeadCell
+					>
+					<TableHeadCell
+						class="whitespace-nowrap"
+						sort={(a: LinkObject, b: LinkObject) => a.visits - b.visits}
+						defaultDirection="desc"
+						defaultSort
+					>
+						Visits
+					</TableHeadCell>
+					<TableHeadCell
+						class="whitespace-nowrap"
+						sort={(a: LinkObject, b: LinkObject) =>
+							new Date(a.created_at).getTime() - new Date(b.created_at).getTime()}
+						>Created At</TableHeadCell
+					>
 					{#if isAdmin}
-						<TableBodyCell>{link.secret_key.name}</TableBodyCell>
-						<TableBodyCell>
-							<span class="font-mono text-sm">
-								{link.secret_key.key.substring(0, 8)}...
-							</span>
-						</TableBodyCell>
+						<TableHeadCell class="whitespace-nowrap">Owner</TableHeadCell>
+						<TableHeadCell class="whitespace-nowrap">Key</TableHeadCell>
 					{/if}
-				</TableBodyRow>
-			</TableBody>
-		</Table>
+				</TableHead>
+				<TableBody>
+					<TableBodyRow slot="row" let:item>
+						{@const link = item as LinkObject}
+						<TableBodyCell class="max-w-[120px] truncate">
+							<a
+								href={`${API_URL}/${link.shortened}`}
+								class="text-blue-500 hover:text-blue-400"
+								target="_blank"
+								rel="noopener noreferrer"
+								title={link.shortened}
+							>
+								{link.shortened}
+							</a>
+						</TableBodyCell>
+						<TableBodyCell class="max-w-[150px]">
+							<a
+								href={link.redirect_to}
+								class="text-blue-500 hover:text-blue-400"
+								target="_blank"
+								rel="noopener noreferrer"
+								title={link.redirect_to}
+							>
+								<span class="block truncate">
+									{link.redirect_to.length > 50
+										? `${link.redirect_to.substring(0, 50)}...`
+										: link.redirect_to}
+								</span>
+							</a>
+						</TableBodyCell>
+						<TableBodyCell>{(link as LinkObject).visits}</TableBodyCell>
+						<TableBodyCell class="whitespace-nowrap">
+							{new Date(link.created_at).toLocaleDateString()}
+						</TableBodyCell>
+						{#if isAdmin}
+							<TableBodyCell class="max-w-[100px] truncate" title={link.secret_key.name}>
+								{link.secret_key.name}
+							</TableBodyCell>
+							<TableBodyCell class="truncate">
+								<span class="font-mono text-sm" title={link.secret_key.key}>
+									{link.secret_key.key.substring(0, 8)}...
+								</span>
+							</TableBodyCell>
+						{/if}
+					</TableBodyRow>
+				</TableBody>
+			</Table>
+		</div>
 	{/if}
 </div>

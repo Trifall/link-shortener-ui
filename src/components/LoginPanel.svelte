@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { UpdateKeyState } from '$lib/KeyState.svelte';
 	import type { EventHandler } from 'svelte/elements';
-	import { GlobalKeyState } from '../state.svelte';
 	import type { KeyObject } from '../types/key';
 	import AuthButton from './AuthButton.svelte';
 
@@ -9,25 +8,20 @@
 </script>
 
 <main class="flex flex-col items-center justify-center gap-2 p-4">
-	{#if GlobalKeyState.name !== '' && GlobalKeyState.key !== '' && GlobalKeyState.is_active}
-		<div class="rounded-lg bg-gray-700 p-4 text-center shadow-lg">
-			<h2 class="text-center text-3xl text-white">Key Info:</h2>
-			<div class="flex flex-col items-start justify-center gap-2 p-4">
-				<h1 class="pb-4 text-3xl text-white">
-					Name: {GlobalKeyState.name}
-				</h1>
-				<p class="text-balance pb-4 text-center text-3xl text-white">
-					Secret Key: {GlobalKeyState.key}
-				</p>
-			</div>
-		</div>
-	{/if}
-	<h1 class="pb-4 text-5xl font-bold text-white">Link Shortener UI</h1>
-	<p class="text-balance pb-4 text-center text-3xl text-white">
-		A secret key is required to access the link shortener. Please authorize by entering your secret
-		key.
-	</p>
+	<h1 class="text-pretty pb-4 text-center text-3xl font-bold text-white sm:text-5xl">
+		Link Shortener
+	</h1>
+	<div class="flex flex-col items-center justify-center gap-2 p-4 text-white">
+		<p class="text-balance text-center text-lg sm:text-2xl">
+			A secret key is required to access the link shortener UI.
+		</p>
+		<p class="text-balance text-center text-lg sm:text-2xl">
+			Please authorize by entering your secret key.
+		</p>
+	</div>
 	<AuthButton />
+
+	<!-- TODO: Remove this testing code -->
 	<button
 		onclick={() => {
 			let testKeyState: KeyObject = {

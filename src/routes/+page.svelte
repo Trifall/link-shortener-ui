@@ -5,6 +5,7 @@
 
 	import { IsValidKeyState } from '$lib/KeyState.svelte';
 	import Dashboard from '../components/Dashboard.svelte';
+	import Footer from '../components/Footer.svelte';
 	import LoginPanel from '../components/LoginPanel.svelte';
 	import { GlobalKeyState } from '../state.svelte';
 
@@ -27,7 +28,7 @@
 	params={{ x: 200 }}
 	position={'bottom-right'}
 	color="blue"
-	class="mb-4 !text-white"
+	class="mb-4 !rounded-xl !text-white"
 	bind:toastStatus={showToast}
 	on:close={() => {
 		showToast = false;
@@ -38,8 +39,8 @@
 	<span>Successfully logged in!</span>
 </Toast>
 
-<div class="flex min-h-screen items-center justify-center bg-gray-900 text-white">
-	<div class="flex flex-col items-center justify-center gap-2 bg-gray-900 p-4 text-white">
+<div class="flex min-h-[80vh] items-center justify-center bg-gray-900 text-white">
+	<div class="flex flex-col items-center justify-center gap-2 bg-gray-900 text-white">
 		{#key GlobalKeyState.key}
 			{#if IsValidKeyState()}
 				<!-- Dashboard Layout -->
@@ -51,3 +52,5 @@
 		{/key}
 	</div>
 </div>
+
+<Footer />
