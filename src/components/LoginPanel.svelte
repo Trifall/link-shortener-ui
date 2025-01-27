@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { UpdateKeyState } from '$lib/KeyState.svelte';
 	import type { EventHandler } from 'svelte/elements';
-	import type { KeyObject } from '../types/key';
+	import type { KeyObject } from '@/types/key';
 	import AuthButton from './AuthButton.svelte';
 
 	let { showToastHandler }: { showToastHandler: EventHandler } = $props();

@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { PUBLIC_API_URL as API_URL } from '$env/static/public';
+	import { GlobalKeyState } from '$lib/KeyState.svelte';
+	import type { LinkObject } from '@/types/link';
 	import {
 		Table,
 		TableBody,
@@ -9,8 +11,6 @@
 		TableHeadCell
 	} from 'flowbite-svelte';
 	import { onMount } from 'svelte';
-	import type { LinkObject } from '../types/link';
-	import { GlobalKeyState } from '$lib/KeyState.svelte';
 
 	let { isAdmin }: { isAdmin: boolean } = $props();
 	let isLoading: boolean = $state(false);

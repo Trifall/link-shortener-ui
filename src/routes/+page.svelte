@@ -3,11 +3,10 @@
 	import { Check } from 'lucide-svelte';
 	import { fly } from 'svelte/transition';
 
-	import { IsValidKeyState } from '$lib/KeyState.svelte';
-	import Dashboard from '../components/Dashboard.svelte';
-	import Footer from '../components/Footer.svelte';
-	import LoginPanel from '../components/LoginPanel.svelte';
-	import { GlobalKeyState } from '../state.svelte';
+	import { GlobalKeyState, IsValidKeyState } from '$lib/KeyState.svelte';
+	import LoginPanel from '@components/LoginPanel.svelte';
+	import Dashboard from '@components/Dashboard.svelte';
+	import Footer from '@components/Footer.svelte';
 
 	let showToast = $state(false);
 

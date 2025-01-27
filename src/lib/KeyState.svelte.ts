@@ -1,4 +1,4 @@
-import type { KeyObject } from '../types/key';
+import type { KeyObject } from '@/types/key';
 
 export const GlobalKeyState = $state<KeyObject>({
 	key: '',

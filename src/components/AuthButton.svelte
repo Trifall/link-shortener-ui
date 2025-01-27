@@ -3,8 +3,8 @@
 	import { GlobalKeyState, ResetKeyState, UpdateKeyState } from '$lib/KeyState.svelte';
 	import { quintOut } from 'svelte/easing';
 	import { fade, scale } from 'svelte/transition';
-	import type { ValidateKeyResponse } from '../types/key';
-	import { capitalizeFirstLetter } from '../util/strings';
+	import type { ValidateKeyResponse } from '@/types/key';
+	import { capitalizeFirstLetter } from '@/util/strings';
 
 	let isDialogOpen = $state(false);
 	let inputKey = $state('');

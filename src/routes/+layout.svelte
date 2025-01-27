@@ -1,6 +1,6 @@
 <script lang="ts">
+	import '@/app.css';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
-	import '../app.css';
 
 	let { children } = $props();
 
