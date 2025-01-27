@@ -9,8 +9,8 @@
 		TableHeadCell
 	} from 'flowbite-svelte';
 	import { onMount } from 'svelte';
-	import { GlobalKeyState } from '../state.svelte';
 	import type { LinkObject } from '../types/link';
+	import { GlobalKeyState } from '$lib/KeyState.svelte';
 
 	let { isAdmin }: { isAdmin: boolean } = $props();
 	let isLoading: boolean = $state(false);

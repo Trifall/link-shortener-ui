@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GlobalKeyState } from '../state.svelte';
+	import { GlobalKeyState } from '$lib/KeyState.svelte';
 	import AuthButton from './AuthButton.svelte';
 	import LinksTable from './LinksTable.svelte';
 </script>

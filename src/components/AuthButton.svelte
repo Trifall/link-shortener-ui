@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { PUBLIC_API_URL as API_URL } from '$env/static/public';
-	import { UpdateKeyState } from '$lib/KeyState.svelte';
+	import { GlobalKeyState, ResetKeyState, UpdateKeyState } from '$lib/KeyState.svelte';
 	import { quintOut } from 'svelte/easing';
 	import { fade, scale } from 'svelte/transition';
-	import { GlobalKeyState, ResetKeyState } from '../state.svelte';
 	import type { ValidateKeyResponse } from '../types/key';
 	import { capitalizeFirstLetter } from '../util/strings';
 
