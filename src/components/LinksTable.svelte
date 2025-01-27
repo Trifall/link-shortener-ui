@@ -1,17 +1,21 @@
 <script lang="ts">
 	import { PUBLIC_API_URL as API_URL } from '$env/static/public';
-	import { getContext, onMount } from 'svelte';
-	import type { KeyObject } from '../types/key';
+	import {
+		Table,
+		TableBody,
+		TableBodyCell,
+		TableBodyRow,
+		TableHead,
+		TableHeadCell
+	} from 'flowbite-svelte';
+	import { onMount } from 'svelte';
+	import { GlobalKeyState } from '../state.svelte';
 	import type { LinkObject } from '../types/link';
 
-	export let isAdmin: boolean = false;
-	let isLoading: boolean = true;
-	let error: string | null = null;
-	let links: LinkObject[] = [];
-
-	let showTooltip: boolean = false;
-
-	const secretKey: KeyObject = getContext('key-context');
+	let { isAdmin }: { isAdmin: boolean } = $props();
+	let isLoading: boolean = $state(false);
+	let error: string | null = $state(null);
+	let links: LinkObject[] = $state<LinkObject[]>([]);
 
 	async function fetchLinks() {
 		try {
@@ -25,13 +29,13 @@
 			const options: RequestInit = {
 				method: isAdmin ? 'GET' : 'POST',
 				headers: {
-					Authorization: secretKey.key,
+					Authorization: GlobalKeyState.key,
 					'Content-Type': 'application/json'
 				}
 			};
 
 			if (!isAdmin) {
-				options.body = JSON.stringify({ key: secretKey.key });
+				options.body = JSON.stringify({ key: GlobalKeyState.key });
 			}
 
 			const response = await fetch(url, options);
@@ -55,165 +59,106 @@
 </script>
 
 <div class="min-w-full overflow-x-auto rounded-lg shadow">
-	<div class="mb-4 flex items-center justify-between px-0 sm:px-4">
+	<div class="mb-4 flex flex-col items-center justify-between gap-4 px-0 sm:flex-row sm:px-4">
 		<h2 class="text-lg font-semibold text-gray-300 sm:text-xl">Links</h2>
-		<button
-			on:click={fetchLinks}
-			class="rounded-full p-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white"
-			title="Refresh"
-			aria-label="Refresh"
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				class="h-6 w-6"
-				fill="none"
-				viewBox="0 0 24 24"
-				stroke="currentColor"
+		<div class="flex w-full items-center gap-4 sm:w-auto">
+			<button
+				onclick={fetchLinks}
+				class="rounded-full p-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white"
+				title="Refresh"
+				aria-label="Refresh"
 			>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="2"
-					d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-				/>
-			</svg>
-		</button>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-6 w-6"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+					/>
+				</svg>
+			</button>
+		</div>
 	</div>
 
 	{#if isLoading}
-		<div class="min-w-full animate-pulse">
-			<table class="min-w-full divide-y divide-gray-700">
-				<thead class="bg-gray-800">
-					<tr>
-						<th class="px-3 py-2 text-left text-xs sm:px-6 sm:py-3 sm:text-sm">
-							<div class="h-4 w-3/4 rounded bg-gray-700"></div>
-						</th>
-						<th class="px-3 py-2 text-left text-xs sm:px-6 sm:py-3 sm:text-sm">
-							<div class="h-4 w-3/4 rounded bg-gray-700"></div>
-						</th>
-						<th class="px-3 py-2 text-left text-xs sm:px-6 sm:py-3 sm:text-sm">
-							<div class="h-4 w-1/4 rounded bg-gray-700"></div>
-						</th>
-						<th class="px-3 py-2 text-left text-xs sm:px-6 sm:py-3 sm:text-sm">
-							<div class="h-4 w-1/2 rounded bg-gray-700"></div>
-						</th>
-						{#if isAdmin}
-							<th class="px-3 py-2 text-left text-xs sm:px-6 sm:py-3 sm:text-sm">
-								<div class="h-4 w-3/4 rounded bg-gray-700"></div>
-							</th>
-							<th class="px-3 py-2 text-left text-xs sm:px-6 sm:py-3 sm:text-sm">
-								<div class="h-4 w-3/4 rounded bg-gray-700"></div>
-							</th>
-						{/if}
-					</tr>
-				</thead>
-				<tbody class="divide-y divide-gray-700 bg-gray-900">
-					{#each { length: 5 } as _, i}
-						<tr>
-							<td class="px-3 py-2 sm:px-6 sm:py-4">
-								<div class="h-4 w-4/5 rounded bg-gray-800"></div>
-							</td>
-							<td class="px-3 py-2 sm:px-6 sm:py-4">
-								<div class="h-4 rounded bg-gray-800"></div>
-							</td>
-							<td class="px-3 py-2 sm:px-6 sm:py-4">
-								<div class="h-4 w-1/4 rounded bg-gray-800"></div>
-							</td>
-							<td class="px-3 py-2 sm:px-6 sm:py-4">
-								<div class="h-4 w-1/3 rounded bg-gray-800"></div>
-							</td>
-							{#if isAdmin}
-								<td class="px-3 py-2 sm:px-6 sm:py-4">
-									<div class="h-4 w-2/3 rounded bg-gray-800"></div>
-								</td>
-								<td class="px-3 py-2 sm:px-6 sm:py-4">
-									<div class="h-4 w-3/4 rounded bg-gray-800"></div>
-								</td>
-							{/if}
-						</tr>
-					{/each}
-				</tbody>
-			</table>
+		<div class="min-w-full">
+			<!-- loading skeleton -->
 		</div>
 	{:else if error}
 		<div class="rounded bg-red-800 p-4 text-red-100">
 			Error loading links: {error}
 		</div>
 	{:else}
-		<table class="min-w-full divide-y divide-gray-700" id="links-table">
-			<thead class="bg-gray-800">
-				<tr>
-					<th class="px-3 py-2 text-left text-xs sm:px-6 sm:py-3 sm:text-sm">Short URL</th>
-					<th class="px-3 py-2 text-left text-xs sm:px-6 sm:py-3 sm:text-sm">Original URL</th>
-					<th class="px-3 py-2 text-left text-xs sm:px-6 sm:py-3 sm:text-sm">Visits</th>
-					<th class="px-3 py-2 text-left text-xs sm:px-6 sm:py-3 sm:text-sm">Created At</th>
+		<Table hoverable={true} items={links}>
+			<TableHead>
+				<TableHeadCell
+					sort={(a: LinkObject, b: LinkObject) => a.shortened.localeCompare(b.shortened)}
+					>Short URL</TableHeadCell
+				>
+				<TableHeadCell
+					sort={(a: LinkObject, b: LinkObject) => a.redirect_to.localeCompare(b.redirect_to)}
+					>Original URL</TableHeadCell
+				>
+				<TableHeadCell
+					sort={(a: LinkObject, b: LinkObject) => a.visits - b.visits}
+					defaultDirection="desc"
+					defaultSort
+				>
+					Visits
+				</TableHeadCell>
+				<TableHeadCell
+					sort={(a: LinkObject, b: LinkObject) =>
+						new Date(a.created_at).getTime() - new Date(b.created_at).getTime()}
+					>Created At</TableHeadCell
+				>
+				{#if isAdmin}
+					<TableHeadCell>Owner</TableHeadCell>
+					<TableHeadCell>Key</TableHeadCell>
+				{/if}
+			</TableHead>
+			<TableBody>
+				<TableBodyRow slot="row" let:item>
+					{@const link = item as LinkObject}
+					<TableBodyCell>
+						<a
+							href={`${API_URL}/${link.shortened}`}
+							class="text-blue-500 hover:text-blue-400"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{link.shortened}
+						</a>
+					</TableBodyCell>
+					<TableBodyCell>
+						<a
+							href={link.redirect_to}
+							class="text-blue-500 hover:text-blue-400"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{link.redirect_to.length > 50
+								? `${link.redirect_to.substring(0, 50)}...`
+								: link.redirect_to}
+						</a>
+					</TableBodyCell>
+					<TableBodyCell>{(link as LinkObject).visits}</TableBodyCell>
+					<TableBodyCell>{new Date(link.created_at).toLocaleDateString()}</TableBodyCell>
 					{#if isAdmin}
-						<th class="px-3 py-2 text-left text-xs sm:px-6 sm:py-3 sm:text-sm">Owner (Name)</th>
-						<th class="px-3 py-2 text-left text-xs sm:px-6 sm:py-3 sm:text-sm">Owner (Key)</th>
+						<TableBodyCell>{link.secret_key.name}</TableBodyCell>
+						<TableBodyCell>
+							<span class="font-mono text-sm">
+								{link.secret_key.key.substring(0, 8)}...
+							</span>
+						</TableBodyCell>
 					{/if}
-				</tr>
-			</thead>
-			<tbody class="divide-y divide-gray-700 bg-gray-900">
-				{#each links as link}
-					<tr class="hover:bg-gray-800">
-						<td class="px-3 py-2 sm:px-6 sm:py-4">
-							<a
-								href={`${API_URL}/${link.shortened}`}
-								class="text-sm text-blue-400 hover:text-blue-300"
-							>
-								<span class="hidden sm:inline">{link.shortened}</span>
-								<span class="sm:hidden">/{link.shortened.split('/').pop()}</span>
-							</a>
-						</td>
-						<td class="max-w-[100px] truncate px-3 py-2 sm:max-w-none sm:px-6 sm:py-4">
-							<a href={link.redirect_to} class="text-sm text-blue-400 hover:text-blue-300">
-								{link.redirect_to}
-							</a>
-						</td>
-						<td class="px-3 py-2 text-sm sm:px-6 sm:py-4">{link.visits}</td>
-						<td class="px-3 py-2 text-sm sm:px-6 sm:py-4">
-							{new Date(link.created_at).toLocaleDateString()}
-						</td>
-						{#if isAdmin}
-							<td class="px-3 py-2 text-sm sm:px-6 sm:py-4">{link.secret_key.name}</td>
-							<td class="relative max-w-[200px] truncate px-3 py-2 text-sm sm:px-6 sm:py-4">
-								<!-- Secret key copy button -->
-								<div class="flex items-center">
-									<button
-										on:click={() => {
-											navigator.clipboard.writeText(link.secret_key.key);
-										}}
-										class="rounded bg-gray-700 px-2 py-1 text-sm text-white hover:bg-gray-800"
-										aria-label="Copy secret key"
-									>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											class="h-5 w-5"
-											fill="none"
-											viewBox="0 0 24 24"
-											stroke="currentColor"
-										>
-											<path
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												stroke-width="2"
-												d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h4a2 2 0 002-2M8 5a2 2 0 012-2h4a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
-											/>
-										</svg>
-									</button>
-									<!-- Tooltip container -->
-									<span
-										class="ml-2 overflow-x-auto align-middle hover:underline"
-										id="tooltip-target"
-									>
-										{link.secret_key.key}
-									</span>
-								</div>
-							</td>
-						{/if}
-					</tr>
-				{/each}
-			</tbody>
-		</table>
+				</TableBodyRow>
+			</TableBody>
+		</Table>
 	{/if}
 </div>

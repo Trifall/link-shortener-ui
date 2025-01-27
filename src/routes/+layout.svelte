@@ -1,14 +1,12 @@
 <script lang="ts">
-	import { setContext } from 'svelte';
+	import { SvelteToast } from '@zerodevx/svelte-toast';
 	import '../app.css';
 
-	let keyContext = $state({ key: null });
-
-	setContext('key-context', keyContext);
 	let { children } = $props();
 
-	// watch the keyContext secretKey value
-	// $inspect(keyContext).with(console.trace);
+	// watch the GlobalKeyState secretKey value
+	// $inspect(GlobalKeyState).with(console.trace);
 </script>
 
+<SvelteToast />
 {@render children()}

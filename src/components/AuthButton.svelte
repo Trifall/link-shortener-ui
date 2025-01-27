@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { PUBLIC_API_URL as API_URL } from '$env/static/public';
-	import { getContext } from 'svelte';
+	import { UpdateKeyState } from '$lib/KeyState.svelte';
 	import { quintOut } from 'svelte/easing';
 	import { fade, scale } from 'svelte/transition';
-	import type { KeyObject, ValidateKeyResponse } from '../types/key';
-
-	const keyContext: KeyObject = getContext('key-context');
+	import { GlobalKeyState, ResetKeyState } from '../state.svelte';
+	import type { ValidateKeyResponse } from '../types/key';
+	import { capitalizeFirstLetter } from '../util/strings';
 
 	let isDialogOpen = false;
 	let inputKey = '';
@@ -53,50 +53,41 @@
 
 			if (!response.ok) {
 				// use error message from response if available
-				throw new Error(responseData.message || 'Invalid passkey');
+				throw new Error(
+					responseData?.message && responseData?.message?.length > 0
+						? capitalizeFirstLetter(responseData.message, true)
+						: 'Invalid passkey'
+				);
 			}
 
 			console.log('Validate Key Response:', responseData);
 
 			// You can use specific properties from the response
-			if (responseData.key && responseData.key.name.length > 0) {
-				keyContext.key = responseData.key.key;
-				keyContext.created_at = responseData.key.created_at;
-				keyContext.updated_at = responseData.key.updated_at;
-				keyContext.name = responseData.key.name;
-				keyContext.is_active = responseData.key.is_active;
-				keyContext.is_admin = responseData.key.is_admin;
-				alert('Passkey validated successfully!');
+			if (responseData.key && responseData.key.key.length > 0) {
+				UpdateKeyState(responseData.key);
+				closeDialog();
 			} else {
 				throw new Error('Validation failed');
 			}
-
-			closeDialog();
 		} catch (err) {
 			console.error('Validation error:', err);
-			errorMessage = (err as Error).message || 'Failed to validate passkey. Please try again.';
+			errorMessage =
+				capitalizeFirstLetter((err as Error).message, true) ||
+				'Failed to validate passkey. Please try again.';
 		} finally {
 			isSubmitting = false;
 		}
 	}
 
-	import { setContext } from 'svelte';
-	const secretKey: KeyObject = getContext('key-context');
-
 	// Add logout function
 	function logout() {
-		setContext('key-context', {
-			key: '',
-			name: '',
-			is_active: false,
-			is_admin: false,
-			created_at: '',
-			updated_at: ''
-		});
+		ResetKeyState();
+		// reload the page
+		window.location.reload();
 	}
 </script>
 
-{#if secretKey.is_active}
+{#if GlobalKeyState.is_active}
 	<button
 		on:click={logout}
 		class="rounded bg-red-600 px-4 py-2 font-bold text-white hover:bg-red-700"
@@ -121,7 +112,7 @@
 				class="w-96 rounded-lg bg-gray-800 p-6 text-white shadow-lg"
 			>
 				<h2 class="mb-4 text-lg font-bold">Enter Secret Passkey</h2>
-				<h3 class="mb-4 text-sm">Current Passkey: {keyContext.key || 'N/A'}</h3>
+				<h3 class="mb-4 text-sm">Current Passkey: {GlobalKeyState.key || 'N/A'}</h3>
 
 				<input
 					type="password"
