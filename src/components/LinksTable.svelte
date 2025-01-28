@@ -3,6 +3,7 @@
 	import { GlobalKeyState } from '$lib/KeyState.svelte';
 	import type { LinkObject } from '@/types/link';
 	import {
+		Spinner,
 		Table,
 		TableBody,
 		TableBodyCell,
@@ -17,39 +18,44 @@
 	let error: string | null = $state(null);
 	let links: LinkObject[] = $state<LinkObject[]>([]);
 
+	// API configuration
+	const getApiConfig = () => {
+		return {
+			url: isAdmin
+				? `${API_URL}/api/v1/links/retrieve-all`
+				: `${API_URL}/api/v1/links/retrieve-all-by-key`,
+			method: isAdmin ? 'GET' : 'POST',
+			headers: {
+				Authorization: GlobalKeyState.key,
+				'Content-Type': 'application/json'
+			},
+			body: !isAdmin ? JSON.stringify({ key: GlobalKeyState.key }) : undefined
+		};
+	};
+
+	// Error handling
+	const handleError = (err: unknown) => {
+		console.error('Fetch error:', err);
+		error = err instanceof Error ? err.message : 'Failed to fetch links';
+	};
+
+	// Main fetch function
 	async function fetchLinks() {
 		try {
 			isLoading = true;
 			error = null;
 
-			const url = isAdmin
-				? `${API_URL}/api/v1/links/retrieve-all`
-				: `${API_URL}/api/v1/links/retrieve-all-by-key`;
-
-			const options: RequestInit = {
-				method: isAdmin ? 'GET' : 'POST',
-				headers: {
-					Authorization: GlobalKeyState.key,
-					'Content-Type': 'application/json'
-				}
-			};
-
-			if (!isAdmin) {
-				options.body = JSON.stringify({ key: GlobalKeyState.key });
-			}
-
-			const response = await fetch(url, options);
+			const { url, method, headers, body } = getApiConfig();
+			const response = await fetch(url, { method, headers, body });
 
 			if (!response.ok) {
 				throw new Error(`HTTP error! status: ${response.status}`);
 			}
 
 			const data = await response.json();
-			console.log(`links: ${JSON.stringify(data.links, null, 2)}`);
 			links = data.links;
 		} catch (err) {
-			console.error('Fetch error:', err);
-			error = (err as Error).message;
+			handleError(err);
 		} finally {
 			isLoading = false;
 		}
@@ -65,6 +71,7 @@
 			<button
 				onclick={fetchLinks}
 				class="rounded-full p-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white"
+				class:animate-spin={isLoading}
 				title="Refresh"
 				aria-label="Refresh"
 			>
@@ -86,9 +93,51 @@
 		</div>
 	</div>
 
-	{#if isLoading}
-		<div class="min-w-full">
-			<!-- loading skeleton -->
+	{#if isLoading && links.length === 0}
+		<div class="relative overflow-x-auto rounded-lg shadow">
+			<div class="absolute left-1/2 top-1/3 z-[50] -translate-x-1/2">
+				<Spinner size={24} color="blue" class="!text-gray-400" />
+			</div>
+			<Table
+				hoverable={!isLoading}
+				items={Array(4).fill({})}
+				class="relative min-w-[600px] !animate-pulse md:min-w-[800px]"
+			>
+				<TableHead>
+					<TableHeadCell class="whitespace-nowrap">Short URL</TableHeadCell>
+					<TableHeadCell class="whitespace-nowrap">Original URL</TableHeadCell>
+					<TableHeadCell class="whitespace-nowrap">Visits</TableHeadCell>
+					<TableHeadCell class="whitespace-nowrap">Created At</TableHeadCell>
+					{#if isAdmin}
+						<TableHeadCell class="whitespace-nowrap">Owner</TableHeadCell>
+						<TableHeadCell class="whitespace-nowrap">Key</TableHeadCell>
+					{/if}
+				</TableHead>
+				<TableBody>
+					<TableBodyRow slot="row" let:item>
+						<TableBodyCell class="max-w-[120px] truncate">
+							<div class="h-4 animate-pulse rounded"></div>
+						</TableBodyCell>
+						<TableBodyCell class="max-w-[150px]">
+							<div class="h-4 animate-pulse rounded"></div>
+						</TableBodyCell>
+						<TableBodyCell>
+							<div class="h-4 animate-pulse rounded"></div>
+						</TableBodyCell>
+						<TableBodyCell class="whitespace-nowrap">
+							<div class="h-4 animate-pulse rounded"></div>
+						</TableBodyCell>
+						{#if isAdmin}
+							<TableBodyCell class="max-w-[100px] truncate">
+								<div class="h-4 animate-pulse rounded"></div>
+							</TableBodyCell>
+							<TableBodyCell class="truncate">
+								<div class="h-4 animate-pulse rounded"></div>
+							</TableBodyCell>
+						{/if}
+					</TableBodyRow>
+				</TableBody>
+			</Table>
 		</div>
 	{:else if error}
 		<div class="rounded bg-red-800 p-4 text-red-100">
@@ -97,9 +146,9 @@
 	{:else}
 		<div class="overflow-x-auto rounded-lg shadow">
 			<Table
-				hoverable={true}
+				hoverable
 				items={links}
-				class="min-w-[600px] md:min-w-[800px] "
+				class="min-w-[600px] md:min-w-[800px]"
 				filter={(t, term) => {
 					return (
 						t.shortened.toLowerCase().includes(term.toLowerCase()) ||
@@ -112,13 +161,15 @@
 					<TableHeadCell
 						class="whitespace-nowrap"
 						sort={(a: LinkObject, b: LinkObject) => a.shortened.localeCompare(b.shortened)}
-						>Short URL</TableHeadCell
 					>
+						Short URL
+					</TableHeadCell>
 					<TableHeadCell
 						class="whitespace-nowrap"
 						sort={(a: LinkObject, b: LinkObject) => a.redirect_to.localeCompare(b.redirect_to)}
-						>Original URL</TableHeadCell
 					>
+						Original URL
+					</TableHeadCell>
 					<TableHeadCell
 						class="whitespace-nowrap"
 						sort={(a: LinkObject, b: LinkObject) => a.visits - b.visits}
@@ -131,8 +182,9 @@
 						class="whitespace-nowrap"
 						sort={(a: LinkObject, b: LinkObject) =>
 							new Date(a.created_at).getTime() - new Date(b.created_at).getTime()}
-						>Created At</TableHeadCell
 					>
+						Created At
+					</TableHeadCell>
 					{#if isAdmin}
 						<TableHeadCell class="whitespace-nowrap">Owner</TableHeadCell>
 						<TableHeadCell class="whitespace-nowrap">Key</TableHeadCell>
@@ -167,7 +219,7 @@
 								</span>
 							</a>
 						</TableBodyCell>
-						<TableBodyCell>{(link as LinkObject).visits}</TableBodyCell>
+						<TableBodyCell>{link.visits}</TableBodyCell>
 						<TableBodyCell class="whitespace-nowrap">
 							{new Date(link.created_at).toLocaleDateString()}
 						</TableBodyCell>
