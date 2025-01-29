@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { UpdateKeyState } from '$lib/KeyState.svelte';
-	import type { EventHandler } from 'svelte/elements';
 	import type { KeyObject } from '@/types/key';
+	import ToastWrapper from '@components/ToastWrapper.svelte';
 	import AuthButton from './AuthButton.svelte';
 
-	let { showToastHandler }: { showToastHandler: EventHandler } = $props();
+	let toastWrapper = $state<ToastWrapper>();
 </script>
+
+<ToastWrapper bind:this={toastWrapper} text="test !" />
 
 <main class="flex flex-col items-center justify-center gap-2 p-4">
 	<h1 class="text-pretty pb-4 text-center text-3xl font-bold text-white sm:text-5xl">
@@ -41,7 +43,7 @@
 	</button>
 
 	<button
-		onclick={showToastHandler}
+		onclick={() => toastWrapper?.show()}
 		class="rounded bg-blue-700 px-4 py-2 font-bold text-white hover:bg-blue-900"
 	>
 		Test toast 1
