@@ -1,28 +1,8 @@
 <script lang="ts">
+	import { toastState } from '@/lib/Toast.svelte';
 	import { Toast } from 'flowbite-svelte';
 	import { Check } from 'lucide-svelte';
-	import type { Snippet } from 'svelte';
 	import { fly } from 'svelte/transition';
-
-	type ToastProps = {
-		children?: Snippet;
-		duration?: number;
-		text?: string;
-	};
-
-	let { children, duration, text }: ToastProps = $props();
-
-	let showToast = $state(false);
-	let timeout = $state<number | undefined>();
-
-	export function show() {
-		showToast = true;
-		if (timeout) clearTimeout(timeout);
-		timeout = setTimeout(() => {
-			showToast = false;
-			timeout = undefined;
-		}, duration ?? 5000);
-	}
 </script>
 
 <Toast
@@ -31,17 +11,12 @@
 	position={'bottom-right'}
 	color="blue"
 	class="!z-[9999] mb-4 !rounded-xl !text-white"
-	bind:toastStatus={showToast}
+	bind:toastStatus={toastState.show}
 	on:close={() => {
-		showToast = false;
+		toastState.show = false;
 	}}
 	defaultIconClass="!bg-transparent"
 >
 	<Check slot="icon" class="h-6 w-6 bg-transparent !stroke-green-500" />
-	{#if children}
-		{@render children()}
-	{/if}
-	{#if text}
-		<span>{text}</span>
-	{/if}
+	<span>{toastState.text}</span>
 </Toast>

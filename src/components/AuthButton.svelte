@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { PUBLIC_API_URL as API_URL } from '$env/static/public';
 	import { GlobalKeyState, ResetKeyState, UpdateKeyState } from '$lib/KeyState.svelte';
+	import { validateKey } from '@/lib/ValidateKey';
 	import { quintOut } from 'svelte/easing';
 	import { fade, scale } from 'svelte/transition';
-	import type { ValidateKeyResponse } from '@/types/key';
-	import { capitalizeFirstLetter } from '@/util/strings';
 
 	let isDialogOpen = $state(false);
 	let inputKey = $state('');
@@ -23,56 +21,24 @@
 
 	async function submitPasskey() {
 		errorMessage = '';
-		const cleanedKey = inputKey.trim();
-
-		if (!cleanedKey) {
-			errorMessage = 'Passkey is required';
-			return;
-		}
-
-		// basic SQL injection prevention
-		const sqlInjectionPattern = /(['";\\]+|--|\.\.)/;
-		if (sqlInjectionPattern.test(cleanedKey)) {
-			errorMessage = 'Invalid characters detected';
-			return;
-		}
-
 		isSubmitting = true;
 
 		try {
-			const response = await fetch(`${API_URL}/api/v1/keys/validate`, {
-				method: 'POST',
-				headers: {
-					Authorization: cleanedKey
-				}
-			});
+			const result = await validateKey(inputKey);
 
-			// parse body
-			const responseData: ValidateKeyResponse = await response.json();
-
-			if (!response.ok) {
-				// use error message from response if available
-				throw new Error(
-					responseData?.message && responseData?.message?.length > 0
-						? capitalizeFirstLetter(responseData.message, true)
-						: 'Invalid passkey'
-				);
+			if (!result.success) {
+				errorMessage = result.error!;
+				return;
 			}
 
-			console.log('Validate Key Response:', responseData);
-
-			// You can use specific properties from the response
-			if (responseData.key && responseData.key.key.length > 0) {
-				UpdateKeyState(responseData.key);
-				closeDialog();
-			} else {
-				throw new Error('Validation failed');
+			if (!result || !result.data?.key) {
+				errorMessage = 'Server error.';
+				return;
 			}
-		} catch (err) {
-			console.error('Validation error:', err);
-			errorMessage =
-				capitalizeFirstLetter((err as Error).message, true) ||
-				'Failed to validate passkey. Please try again.';
+
+			console.log('Validate Key Response:', result.data);
+			UpdateKeyState(result!.data!.key!);
+			closeDialog();
 		} finally {
 			isSubmitting = false;
 		}

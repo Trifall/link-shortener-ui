@@ -1,7 +1,12 @@
 <script lang="ts">
-	import { GlobalKeyState } from '$lib/KeyState.svelte';
+	import { GlobalKeyState, IsValidKeyState } from '$lib/KeyState.svelte';
+	import { showToast } from '@/lib/Toast.svelte';
 	import AuthButton from './AuthButton.svelte';
 	import LinksTable from './LinksTable.svelte';
+
+	if (IsValidKeyState()) {
+		showToast('Successfully authenticated!');
+	}
 </script>
 
 <header class="fixed left-0 right-0 top-0 z-50 max-w-[100vw] bg-gray-800 shadow">
