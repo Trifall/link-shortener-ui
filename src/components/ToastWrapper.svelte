@@ -13,11 +13,14 @@
 	let { children, duration, text }: ToastProps = $props();
 
 	let showToast = $state(false);
+	let timeout = $state<number | undefined>();
 
 	export function show() {
 		showToast = true;
-		setTimeout(() => {
+		if (timeout) clearTimeout(timeout);
+		timeout = setTimeout(() => {
 			showToast = false;
+			timeout = undefined;
 		}, duration ?? 5000);
 	}
 </script>

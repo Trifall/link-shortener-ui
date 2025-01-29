@@ -5,9 +5,11 @@
 	import AuthButton from './AuthButton.svelte';
 
 	let toastWrapper = $state<ToastWrapper>();
+
+	let toastText = $state('test 1');
 </script>
 
-<ToastWrapper bind:this={toastWrapper} text="test !" />
+<ToastWrapper bind:this={toastWrapper} text={toastText} />
 
 <main class="flex flex-col items-center justify-center gap-2 p-4">
 	<h1 class="text-pretty pb-4 text-center text-3xl font-bold text-white sm:text-5xl">
@@ -43,7 +45,10 @@
 	</button>
 
 	<button
-		onclick={() => toastWrapper?.show()}
+		onclick={() => {
+			toastText = Math.floor(Math.random() * 515151) + 'test !';
+			toastWrapper?.show();
+		}}
 		class="rounded bg-blue-700 px-4 py-2 font-bold text-white hover:bg-blue-900"
 	>
 		Test toast 1
