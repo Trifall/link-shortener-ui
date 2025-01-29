@@ -11,6 +11,7 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
+	import { ClipboardCopy } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	let { isAdmin }: { isAdmin: boolean } = $props();
@@ -37,6 +38,10 @@
 	const handleError = (err: unknown) => {
 		console.error('Fetch error:', err);
 		error = err instanceof Error ? err.message : 'Failed to fetch links';
+	};
+
+	const handleKeyCopy = (key: string) => {
+		navigator?.clipboard?.writeText(key);
 	};
 
 	// Main fetch function
@@ -224,11 +229,17 @@
 							{new Date(link.created_at).toLocaleDateString()}
 						</TableBodyCell>
 						{#if isAdmin}
-							<TableBodyCell class="max-w-[100px] truncate" title={link.secret_key.name}>
+							<TableBodyCell class="max-w-[200px] truncate" title={link.secret_key.name}>
 								{link.secret_key.name}
 							</TableBodyCell>
-							<TableBodyCell class="truncate">
-								<span class="font-mono text-sm" title={link.secret_key.key}>
+							<TableBodyCell class="flex items-center justify-center gap-2">
+								<ClipboardCopy
+									size={20}
+									onclick={() => {
+										handleKeyCopy(link.secret_key.key);
+									}}
+								/>
+								<span class="truncate font-mono text-sm" title={link.secret_key.key}>
 									{link.secret_key.key.substring(0, 8)}...
 								</span>
 							</TableBodyCell>
