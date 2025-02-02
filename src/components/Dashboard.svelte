@@ -1,11 +1,15 @@
 <script lang="ts">
 	import { GlobalKeyState, IsValidKeyState } from '$lib/KeyState.svelte';
 	import { showToast } from '@/lib/Toast.svelte';
+	import { TabItem, Tabs } from 'flowbite-svelte';
 	import AuthButton from './AuthButton.svelte';
 	import LinksTable from './LinksTable.svelte';
 
-	if (IsValidKeyState()) {
+	let authToast = false;
+
+	if (IsValidKeyState() && !authToast) {
 		showToast('Successfully authenticated!');
+		authToast = true;
 	}
 </script>
 
@@ -23,10 +27,18 @@
 		<AuthButton />
 	</nav>
 </header>
-<main class="max-w-[100vw]">
-	<div class="mx-auto max-w-7xl">
-		<div class="mb-6 rounded-lg bg-gray-800 p-6 shadow">
-			<LinksTable isAdmin={GlobalKeyState.is_admin} />
-		</div>
+
+<main class="relative h-[60vh] min-w-[100vw]">
+	<div class="mx-auto flex min-h-96 max-w-[100vw] flex-col lg:max-w-7xl">
+		<Tabs contentClass="p-4 bg-gray-50 rounded-lg dark:bg-gray-800 mt-4 mx-4">
+			<TabItem open title="Profile" class="mx-4">
+				<div class="mb-6 rounded-lg bg-gray-800 p-6 shadow">
+					<LinksTable isAdmin={GlobalKeyState.is_admin} />
+				</div>
+			</TabItem>
+			<TabItem title="Settings">
+				<span>test</span>
+			</TabItem>
+		</Tabs>
 	</div>
 </main>

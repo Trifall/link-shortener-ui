@@ -70,9 +70,9 @@
 </script>
 
 <div class="min-w-full rounded-lg shadow">
-	<div class="mb-4 flex flex-col items-center justify-between gap-4 px-0 sm:flex-row sm:px-4">
+	<div class="mb-4 flex flex-col items-center justify-between gap-4 sm:flex-row">
 		<div class="flex w-full justify-between gap-4">
-			<h2 class="text-2xl font-bold">Your Links</h2>
+			<h2 class="text-2xl font-bold">Links</h2>
 			<button
 				onclick={fetchLinks}
 				class="rounded-full p-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white"
@@ -145,7 +145,7 @@
 			</Table>
 		</div>
 	{:else if error}
-		<div class="rounded bg-red-800 p-4 text-red-100">
+		<div class="rounded bg-red-800 py-4 text-red-100">
 			Error loading links: {error}
 		</div>
 	{:else}
@@ -161,6 +161,7 @@
 						t.secret_key.name.toLowerCase().includes(term.toLowerCase())
 					);
 				}}
+				innerDivClass="py-4 px-0"
 			>
 				<TableHead>
 					<TableHeadCell
