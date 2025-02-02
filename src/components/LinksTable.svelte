@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { PUBLIC_API_URL as API_URL } from '$env/static/public';
 	import { GlobalKeyState } from '$lib/KeyState.svelte';
+	import { showToast } from '@/lib/Toast.svelte';
 	import type { LinkObject } from '@/types/link';
 	import CreateLinkDialog from '@components/CreateLinkDialog.svelte';
 	import {
@@ -43,6 +44,7 @@
 
 	const handleKeyCopy = (key: string) => {
 		navigator?.clipboard?.writeText(key);
+		showToast('Copied key to clipboard!');
 	};
 
 	async function fetchLinks() {
@@ -58,7 +60,11 @@
 			}
 
 			const data = await response.json();
-			links = structuredClone(data.links);
+			let temp = [];
+			for (let i = 0; i < 20; i++) {
+				temp.push(...data.links);
+			}
+			links = structuredClone(temp);
 		} catch (err) {
 			handleError(err);
 		} finally {
@@ -159,12 +165,13 @@
 				Error loading links: {error}
 			</div>
 		{:else}
-			<div class="overflow-x-auto rounded-lg shadow">
+			<div class="relative overflow-x-auto rounded-lg shadow">
 				{#key links}
+					<!-- <div class="max-h-[250px] overflow-y-auto"> -->
 					<Table
 						hoverable
 						items={links}
-						class="min-w-[600px] md:min-w-[800px]"
+						class="relative min-w-[600px] md:min-w-[800px]"
 						filter={(t, term) => {
 							return (
 								t.shortened.toLowerCase().includes(term.toLowerCase()) ||
@@ -174,7 +181,7 @@
 						}}
 						innerDivClass="py-4 px-0"
 					>
-						<TableHead>
+						<TableHead theadClass="sticky top-0 z-10 bg-gray-800">
 							<TableHeadCell
 								class="whitespace-nowrap"
 								sort={(a: LinkObject, b: LinkObject) => a.shortened.localeCompare(b.shortened)}
@@ -207,7 +214,8 @@
 								<TableHeadCell class="whitespace-nowrap">Key</TableHeadCell>
 							{/if}
 						</TableHead>
-						<TableBody tableBodyClass="max-h-[250px] overflow-y-auto">
+
+						<TableBody tableBodyClass="">
 							<TableBodyRow slot="row" let:item>
 								{@const link = item as LinkObject}
 								<TableBodyCell class="max-w-[120px] truncate">
@@ -260,6 +268,7 @@
 							</TableBodyRow>
 						</TableBody>
 					</Table>
+					<!-- </div> -->
 				{/key}
 			</div>
 		{/if}
