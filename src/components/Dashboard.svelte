@@ -30,13 +30,22 @@
 
 <main class="relative h-[60vh] min-w-[100vw]">
 	<div class="mx-auto flex min-h-96 max-w-[100vw] flex-col lg:max-w-7xl">
-		<Tabs contentClass="p-4 bg-gray-50 rounded-lg dark:bg-gray-800 mt-4 mx-4">
-			<TabItem open title="Profile" class="mx-4">
+		<Tabs
+			activeClasses="bg-blue-500 rounded-t-xl"
+			inactiveClasses="rounded-t-xl"
+			contentClass="p-4 bg-gray-50 rounded-lg dark:bg-gray-800 mt-4 mx-4"
+		>
+			<TabItem
+				open
+				title="Profile"
+				class="ml-4 flex flex-col justify-end"
+				defaultClass="!p-2 text-sm"
+			>
 				<div class="mb-6 rounded-lg bg-gray-800 p-6 shadow">
 					<LinksTable isAdmin={GlobalKeyState.is_admin} />
 				</div>
 			</TabItem>
-			<TabItem title="Settings">
+			<TabItem title="Settings" class="flex flex-col justify-end" defaultClass="!p-2 text-sm">
 				<span>test</span>
 			</TabItem>
 		</Tabs>
