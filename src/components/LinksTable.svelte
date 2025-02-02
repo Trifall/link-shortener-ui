@@ -60,11 +60,8 @@
 			}
 
 			const data = await response.json();
-			let temp = [];
-			for (let i = 0; i < 20; i++) {
-				temp.push(...data.links);
-			}
-			links = structuredClone(temp);
+
+			links = structuredClone(data.links);
 		} catch (err) {
 			handleError(err);
 		} finally {
