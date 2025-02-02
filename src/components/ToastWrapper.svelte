@@ -10,7 +10,7 @@
 	params={{ x: 200 }}
 	position={'bottom-right'}
 	color="blue"
-	class="!z-[9999] mb-4 !rounded-xl !text-white"
+	class="fixed !z-[9999] mb-4 !rounded-xl !text-white"
 	bind:toastStatus={toastState.show}
 	on:close={() => {
 		toastState.show = false;
