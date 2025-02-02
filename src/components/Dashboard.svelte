@@ -25,12 +25,12 @@
 	</nav>
 </header>
 
-<main class="relative h-[60vh] min-w-[100vw]">
-	<div class="mx-auto flex min-h-96 max-w-[100vw] flex-col lg:max-w-7xl">
+<main class="relative flex-1">
+	<div class="mx-auto flex h-full max-w-[100vw] flex-col lg:max-w-7xl">
 		<Tabs
 			activeClasses="bg-blue-500 rounded-t-xl"
 			inactiveClasses="rounded-t-xl"
-			contentClass="p-4 bg-gray-50 rounded-lg dark:bg-gray-800 mt-4 mx-4"
+			contentClass="flex-1 p-4 bg-gray-50 dark:bg-gray-800 mx-4 mb-4"
 		>
 			<TabItem
 				open

@@ -8,7 +8,7 @@
 
 <footer
 	transition:fade={{ delay: 200, duration: 1500 }}
-	class="bottom-0 left-1/2 mt-4 -translate-x-1/2 pb-8 md:px-6 lg:px-8"
+	class=" mt-auto pb-8 md:px-6 lg:px-8"
 	class:fixed={isFixed}
 	class:relative={!isFixed}
 >
