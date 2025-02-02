@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { PUBLIC_API_URL as API_URL } from '$env/static/public';
 	import { GlobalKeyState } from '$lib/KeyState.svelte';
+	import { FormatError } from '@/lib/FormatError';
 	import { Plus } from 'lucide-svelte';
 	import { quintOut } from 'svelte/easing';
 	import { fade, scale } from 'svelte/transition';
@@ -69,7 +70,7 @@
 			const data = await response.json();
 
 			if (!response.ok) {
-				throw new Error(data.message || 'Failed to create link');
+				throw new Error(FormatError(data.message) || 'Failed to create link');
 			}
 
 			// Close dialog and trigger refresh of links table
