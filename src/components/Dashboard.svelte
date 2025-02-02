@@ -26,7 +26,7 @@
 </header>
 
 <main class="relative flex-1">
-	<div class="mx-auto flex h-full max-w-[100vw] flex-col lg:max-w-7xl">
+	<div class="mx-auto flex h-full min-w-[100vw] max-w-[100vw] flex-col lg:max-w-7xl">
 		<Tabs
 			activeClasses="bg-blue-500 rounded-t-xl"
 			inactiveClasses="rounded-t-xl"
