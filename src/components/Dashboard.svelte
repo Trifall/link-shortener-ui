@@ -5,11 +5,8 @@
 	import AuthButton from './AuthButton.svelte';
 	import LinksTable from './LinksTable.svelte';
 
-	let authToast = false;
-
-	if (IsValidKeyState() && !authToast) {
+	if (IsValidKeyState()) {
 		showToast('Successfully authenticated!');
-		authToast = true;
 	}
 </script>
 
