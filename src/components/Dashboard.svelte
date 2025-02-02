@@ -12,11 +12,11 @@
 
 <header class="fixed left-0 right-0 top-0 z-50 max-w-[100vw] bg-gray-800 shadow">
 	<nav class="flex items-center justify-between p-4">
-		<div class="flex items-center gap-4">
+		<div class="mx-2 flex items-center gap-2">
 			<h1 class="text-xl font-bold">
 				<span class="hidden sm:inline-block">Link Shortener&nbsp;</span>Dashboard
 			</h1>
-			<span class="rounded bg-gray-700 px-2 py-1 text-sm">
+			<span class="text-balance rounded bg-gray-700 px-2 py-1 text-center text-sm">
 				{GlobalKeyState.name}
 				{#if GlobalKeyState.is_admin}(Admin){/if}
 			</span>
@@ -26,7 +26,7 @@
 </header>
 
 <main class="relative flex-1">
-	<div class="mx-auto flex h-full min-w-[100vw] max-w-[100vw] flex-col lg:max-w-7xl">
+	<div class="mx-auto mt-24 flex h-full min-w-[100vw] max-w-[100vw] flex-col lg:max-w-7xl">
 		<Tabs
 			activeClasses="bg-blue-500 rounded-t-xl"
 			inactiveClasses="rounded-t-xl"
