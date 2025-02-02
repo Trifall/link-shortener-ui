@@ -1,7 +1,4 @@
 <script lang="ts">
-	import { UpdateKeyState } from '$lib/KeyState.svelte';
-	import { showToast } from '@/lib/Toast.svelte';
-	import type { KeyObject } from '@/types/key';
 	import AuthButton from './AuthButton.svelte';
 </script>
 
@@ -19,7 +16,7 @@
 	</div>
 	<AuthButton />
 
-	<!-- TODO: Remove this testing code -->
+	<!-- TODO: Remove this testing code
 	<button
 		onclick={() => {
 			let testKeyState: KeyObject = {
@@ -45,5 +42,5 @@
 		class="rounded bg-blue-700 px-4 py-2 font-bold text-white hover:bg-blue-900"
 	>
 		Test toast 1
-	</button>
+	</button> -->
 </main>
