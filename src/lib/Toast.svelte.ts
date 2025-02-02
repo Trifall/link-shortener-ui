@@ -14,7 +14,6 @@ export const toastState = $state({
 let toastTimeout = $state<number | undefined>();
 
 export function showToast(textOrOptions: string | ToastOptions) {
-	console.log(`showing`);
 	const options = typeof textOrOptions === 'string' ? { text: textOrOptions } : textOrOptions;
 
 	toastState.text = options.text ?? '';
