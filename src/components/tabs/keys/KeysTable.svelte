@@ -4,7 +4,7 @@
 	import { showToast } from '@/lib/Toast.svelte';
 	import type { KeyObject } from '@/types/key';
 	import { formatDateTime } from '@/util/dates';
-	import CreateKeyDialog from '@components/CreateKeyDialog.svelte';
+	import CreateKeyDialog from '@components/tabs/keys/CreateKeyDialog.svelte';
 	import {
 		Spinner,
 		Table,

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { GlobalKeyState, IsValidKeyState } from '$lib/KeyState.svelte';
 	import { showToast } from '@/lib/Toast.svelte';
+	import AuthButton from '@components/auth/AuthButton.svelte';
+	import KeysTable from '@components/tabs/keys/KeysTable.svelte';
+	import LinksTable from '@components/tabs/links/LinksTable.svelte';
 	import { TabItem, Tabs } from 'flowbite-svelte';
-	import AuthButton from './AuthButton.svelte';
-	import LinksTable from './LinksTable.svelte';
-	import KeysTable from './KeysTable.svelte';
 
 	if (IsValidKeyState()) {
 		showToast('Successfully authenticated!');

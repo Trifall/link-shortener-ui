@@ -4,7 +4,7 @@
 	import { showToast } from '@/lib/Toast.svelte';
 	import type { LinkObject } from '@/types/link';
 	import { formatDateTime } from '@/util/dates';
-	import CreateLinkDialog from '@components/CreateLinkDialog.svelte';
+	import CreateLinkDialog from '@components/tabs/links/CreateLinkDialog.svelte';
 	import {
 		Spinner,
 		Table,

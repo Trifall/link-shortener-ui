@@ -2,7 +2,7 @@
 	import { GlobalKeyState, IsValidKeyState } from '$lib/KeyState.svelte';
 	import Dashboard from '@components/Dashboard.svelte';
 	import Footer from '@components/Footer.svelte';
-	import LoginPanel from '@components/LoginPanel.svelte';
+	import LoginPanel from '@components/auth/LoginPanel.svelte';
 	import ToastWrapper from '@components/ToastWrapper.svelte';
 </script>
 
