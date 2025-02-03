@@ -50,7 +50,7 @@ export const validateKey = async (inputKey: string): Promise<ValidationResult> =
 			};
 		}
 
-		if (!responseData.key || responseData.key.key.length === 0) {
+		if (!responseData.key || responseData.key?.key?.length === 0) {
 			return {
 				success: false,
 				error: 'Validation failed'

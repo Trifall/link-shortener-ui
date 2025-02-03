@@ -3,6 +3,7 @@
 	import { GlobalKeyState } from '$lib/KeyState.svelte';
 	import { showToast } from '@/lib/Toast.svelte';
 	import type { LinkObject } from '@/types/link';
+	import { formatDateTime } from '@/util/dates';
 	import CreateLinkDialog from '@components/CreateLinkDialog.svelte';
 	import {
 		Spinner,
@@ -109,7 +110,7 @@
 		</div>
 	</div>
 	<div class="relative overflow-x-auto rounded-lg shadow">
-		{#if isLoading && links.length === 0}
+		{#if isLoading && links?.length === 0}
 			<div class="relative overflow-x-auto rounded-lg shadow">
 				<div class="absolute left-1/2 top-1/3 z-[50] -translate-x-1/2">
 					<Spinner size={24} color="blue" class="!text-gray-400" />
@@ -164,7 +165,6 @@
 		{:else}
 			<div class="relative overflow-x-auto rounded-lg shadow">
 				{#key links}
-					<!-- <div class="max-h-[250px] overflow-y-auto"> -->
 					<Table
 						hoverable
 						items={links}
@@ -242,8 +242,8 @@
 									</a>
 								</TableBodyCell>
 								<TableBodyCell>{link.visits}</TableBodyCell>
-								<TableBodyCell class="whitespace-nowrap">
-									{new Date(link.created_at).toLocaleDateString()}
+								<TableBodyCell class="whitespace-nowrap" title={formatDateTime(link.created_at)}>
+									{formatDateTime(link.created_at)}
 								</TableBodyCell>
 								{#if isAdmin}
 									<TableBodyCell class="max-w-[200px] truncate" title={link.secret_key.name}>
@@ -265,7 +265,6 @@
 							</TableBodyRow>
 						</TableBody>
 					</Table>
-					<!-- </div> -->
 				{/key}
 			</div>
 		{/if}
