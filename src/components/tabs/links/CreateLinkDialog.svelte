@@ -12,12 +12,12 @@
 	let isSubmitting = $state(false);
 	let errorMessage = $state('');
 
-	// Form state
+	// form state
 	let customUrl = $state('');
 	let redirectTo = $state('');
 	let expiresAt = $state('');
 
-	// Form validation schema
+	// form validation schema
 	const linkSchema = z.object({
 		custom_url: z.string().optional(),
 		redirect_to: z.string().url('Please enter a valid URL'),
@@ -52,7 +52,7 @@
 			isSubmitting = true;
 			errorMessage = '';
 
-			// Validate form data
+			// validate form data
 			const validatedData = linkSchema.parse({
 				custom_url: customUrl,
 				redirect_to: redirectTo,
@@ -74,7 +74,7 @@
 				throw new Error(FormatError(data.message) || 'Failed to create link');
 			}
 
-			// Close dialog and trigger refresh of links table
+			// close dialog and trigger refresh of links table
 			closeDialog();
 			window.dispatchEvent(new CustomEvent('refreshLinks'));
 		} catch (err) {
