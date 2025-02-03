@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { GlobalKeyState, ResetKeyState, UpdateKeyState } from '$lib/KeyState.svelte';
+	import { deleteKeyCookie, loadKeyCookie } from '@/lib/Settings';
 	import { validateKey } from '@/lib/ValidateKey';
 	import { quintOut } from 'svelte/easing';
 	import { fade, scale } from 'svelte/transition';
@@ -10,6 +11,12 @@
 	let errorMessage = $state('');
 
 	function openDialog() {
+		// load the cookie to check for a valid
+		const cookieKey = loadKeyCookie();
+		if (cookieKey && cookieKey.length > 1) {
+			submitPasskey(cookieKey);
+		}
+
 		isDialogOpen = true;
 		inputKey = '';
 		errorMessage = '';
@@ -19,36 +26,44 @@
 		isDialogOpen = false;
 	}
 
-	async function submitPasskey() {
+	async function submitPasskey(overrideKey?: string) {
 		errorMessage = '';
 		isSubmitting = true;
 
+		let reqKey;
+		if (inputKey.length > 0) {
+			reqKey = inputKey;
+		} else if (overrideKey && overrideKey.length > 0) {
+			reqKey = overrideKey;
+		}
+
 		try {
-			const result = await validateKey(inputKey);
+			if (reqKey && reqKey.length > 0) {
+				const result = await validateKey(reqKey);
 
-			if (!result.success) {
-				errorMessage = result.error!;
-				return;
+				if (!result.success) {
+					errorMessage = result.error!;
+					return;
+				}
+
+				if (!result || !result.data?.key) {
+					errorMessage = 'Server error.';
+					return;
+				}
+
+				console.log('Validate Key Response:', result.data);
+				UpdateKeyState(result!.data!.key!);
+				closeDialog();
 			}
-
-			if (!result || !result.data?.key) {
-				errorMessage = 'Server error.';
-				return;
-			}
-
-			console.log('Validate Key Response:', result.data);
-			UpdateKeyState(result!.data!.key!);
-			closeDialog();
 		} finally {
 			isSubmitting = false;
 		}
 	}
 
-	// Add logout function
+	// removes stored cookie and resets the global key state
 	function logout() {
+		deleteKeyCookie();
 		ResetKeyState();
-		// reload the page
-		window.location.reload();
 	}
 </script>
 
@@ -102,7 +117,7 @@
 						Cancel
 					</button>
 					<button
-						onclick={submitPasskey}
+						onclick={() => submitPasskey()}
 						class="rounded bg-blue-700 px-4 py-2 font-bold text-white hover:bg-blue-900 disabled:opacity-50"
 						disabled={isSubmitting || !inputKey.trim()}
 					>

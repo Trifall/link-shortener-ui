@@ -4,6 +4,7 @@
 	import AuthButton from '@components/auth/AuthButton.svelte';
 	import KeysTable from '@components/tabs/keys/KeysTable.svelte';
 	import LinksTable from '@components/tabs/links/LinksTable.svelte';
+	import Settings from '@components/tabs/settings/Settings.svelte';
 	import { TabItem, Tabs } from 'flowbite-svelte';
 
 	if (IsValidKeyState()) {
@@ -51,7 +52,7 @@
 				</TabItem>
 			{/if}
 			<TabItem title="Settings" class="flex flex-col justify-end" defaultClass="!p-2 text-sm">
-				<span>test</span>
+				<Settings />
 			</TabItem>
 		</Tabs>
 	</div>
