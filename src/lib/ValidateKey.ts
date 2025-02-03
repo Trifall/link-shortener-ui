@@ -11,7 +11,6 @@ export interface ValidationResult {
 export const validateKey = async (inputKey: string): Promise<ValidationResult> => {
 	const cleanedKey = inputKey.trim();
 
-	// Input validation
 	if (!cleanedKey) {
 		return {
 			success: false,

@@ -12,10 +12,10 @@ export const FormatError = (err: string): string => {
 	let formattedFirst = first;
 
 	if (formattedFirst.includes('_')) {
-		// Replace all underscores with spaces
+		// replace all underscores with spaces
 		formattedFirst = formattedFirst.replace(/_/g, ' ');
 
-		// Capitalize the first letter of each word
+		// capitalize the first letter of each word
 		formattedFirst = formattedFirst
 			.split(' ')
 			.map((word) => {
@@ -26,7 +26,7 @@ export const FormatError = (err: string): string => {
 			})
 			.join(' ');
 	} else {
-		// Capitalize the first letter of the first word
+		// capitalize the first letter of the first word
 		formattedFirst = formattedFirst.charAt(0).toUpperCase() + formattedFirst.slice(1);
 	}
 

@@ -4,7 +4,7 @@ import { GlobalKeyState, IsValidKeyState, ResetKeyState, UpdateKeyState } from '
 
 describe('KeyState', () => {
 	beforeEach(() => {
-		// Reset state before each test
+		// reset state before each test
 		ResetKeyState();
 	});
 
@@ -83,7 +83,7 @@ describe('KeyState', () => {
 
 	describe('ResetKeyState', () => {
 		it('should reset all fields to default values', () => {
-			// First set some values
+			// set some values
 			const testKey: KeyObject = {
 				key: 'test-key',
 				name: 'Test Key',
@@ -95,7 +95,7 @@ describe('KeyState', () => {
 
 			UpdateKeyState(testKey);
 
-			// Then reset
+			// reset
 			ResetKeyState();
 
 			expect(GlobalKeyState).toEqual({
