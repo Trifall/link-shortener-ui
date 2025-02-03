@@ -11,3 +11,8 @@ export type ValidateKeyResponse = {
 	message?: string;
 	key?: KeyObject;
 };
+
+export type RetrieveAllKeysResponse = {
+	message: string;
+	keys?: KeyObject[];
+};

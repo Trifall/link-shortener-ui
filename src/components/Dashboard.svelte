@@ -4,6 +4,7 @@
 	import { TabItem, Tabs } from 'flowbite-svelte';
 	import AuthButton from './AuthButton.svelte';
 	import LinksTable from './LinksTable.svelte';
+	import KeysTable from './KeysTable.svelte';
 
 	if (IsValidKeyState()) {
 		showToast('Successfully authenticated!');
@@ -42,6 +43,13 @@
 					<LinksTable isAdmin={GlobalKeyState.is_admin} />
 				</div>
 			</TabItem>
+			{#if GlobalKeyState.is_admin}
+				<TabItem title="Keys" class="flex flex-col justify-end" defaultClass="!p-2 text-sm">
+					<div class="mb-6 rounded-lg bg-gray-800 p-6 shadow">
+						<KeysTable isAdmin={GlobalKeyState.is_admin} />
+					</div>
+				</TabItem>
+			{/if}
 			<TabItem title="Settings" class="flex flex-col justify-end" defaultClass="!p-2 text-sm">
 				<span>test</span>
 			</TabItem>
