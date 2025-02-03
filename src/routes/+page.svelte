@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { GlobalKeyState, IsValidKeyState } from '$lib/KeyState.svelte';
+	import LoginPanel from '@components/auth/LoginPanel.svelte';
 	import Dashboard from '@components/Dashboard.svelte';
 	import Footer from '@components/Footer.svelte';
-	import LoginPanel from '@components/auth/LoginPanel.svelte';
 	import ToastWrapper from '@components/ToastWrapper.svelte';
 </script>
 
@@ -16,7 +16,7 @@
 				<!-- Dashboard Layout -->
 				<Dashboard />
 			{:else}
-				<!-- Existing Login UI -->
+				<!-- Login UI -->
 				<LoginPanel />
 			{/if}
 		{/key}
