@@ -3,6 +3,7 @@
 	import { GlobalKeyState } from '$lib/KeyState.svelte';
 	import Spinner from '@/icon/Spinner.svelte';
 	import { FormatError } from '@/lib/FormatError';
+	import { showToast } from '@/lib/Toast.svelte';
 	import { Plus } from 'lucide-svelte';
 	import { quintOut } from 'svelte/easing';
 	import { fade, scale } from 'svelte/transition';
@@ -74,7 +75,9 @@
 				throw new Error(FormatError(data.message) || 'Failed to create link');
 			}
 
-			// close dialog and trigger refresh of links table
+			navigator?.clipboard?.writeText(`${API_URL}/${data?.shortened_url}`);
+			showToast('Link created successfully! It has been copied to your clipboard.');
+
 			closeDialog();
 			window.dispatchEvent(new CustomEvent('refreshLinks'));
 		} catch (err) {

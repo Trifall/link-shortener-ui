@@ -3,6 +3,7 @@
 	import { GlobalKeyState } from '$lib/KeyState.svelte';
 	import Spinner from '@/icon/Spinner.svelte';
 	import { FormatError } from '@/lib/FormatError';
+	import { showToast } from '@/lib/Toast.svelte';
 	import { Plus } from 'lucide-svelte';
 	import { quintOut } from 'svelte/easing';
 	import { fade, scale } from 'svelte/transition';
@@ -64,6 +65,9 @@
 			if (!response.ok) {
 				throw new Error(FormatError(data.message) || 'Failed to create key');
 			}
+
+			navigator?.clipboard?.writeText(data.key.key);
+			showToast('Created key successfully! It has been copied to your clipboard.');
 
 			closeDialog();
 			window.dispatchEvent(new CustomEvent('refreshKeys'));

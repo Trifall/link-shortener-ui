@@ -28,7 +28,7 @@
 </header>
 
 <main class="relative flex-1">
-	<div class="mx-auto mt-24 flex h-full min-w-[100vw] max-w-[100vw] flex-col lg:max-w-7xl">
+	<div class="mx-auto mt-24 flex h-full min-w-[100vw] max-w-[100vw] flex-col xl:max-w-7xl">
 		<Tabs
 			activeClasses="bg-blue-500 rounded-t-xl"
 			inactiveClasses="rounded-t-xl"
@@ -36,7 +36,7 @@
 		>
 			<TabItem
 				open
-				title="Profile"
+				title="Links"
 				class="ml-4 flex flex-col justify-end "
 				defaultClass="!p-2 text-base min-w-[65px]"
 			>

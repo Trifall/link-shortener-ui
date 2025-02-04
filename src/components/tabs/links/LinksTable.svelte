@@ -6,6 +6,7 @@
 	import { formatDateTime } from '@/util/dates';
 	import CreateLinkDialog from '@components/tabs/links/CreateLinkDialog.svelte';
 	import DeleteLinkDialog from '@components/tabs/links/DeleteLinkDialog.svelte';
+	import EditLinkDialog from '@components/tabs/links/EditLinkDialog.svelte';
 	import {
 		Spinner,
 		Table,
@@ -15,7 +16,7 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
-	import { ClipboardCopy, Trash2Icon } from 'lucide-svelte';
+	import { ClipboardCopy, Edit, Trash2Icon } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	let { isAdmin }: { isAdmin: boolean } = $props();
@@ -25,6 +26,7 @@
 
 	let selectedLink = $state<LinkObject | undefined>(undefined);
 	let isDeleteDialogOpen = $state<boolean>(false);
+	let isEditDialogOpen = $state<boolean>(false);
 
 	// API configuration
 	const getApiConfig = () => {
@@ -83,7 +85,13 @@
 </script>
 
 {#key selectedLink}
-	<DeleteLinkDialog {selectedLink} {isDeleteDialogOpen} />
+	{#if isEditDialogOpen}
+		<EditLinkDialog {selectedLink} bind:isEditDialogOpen />
+	{/if}
+
+	{#if isDeleteDialogOpen}
+		<DeleteLinkDialog {selectedLink} bind:isDeleteDialogOpen />
+	{/if}
 {/key}
 
 <div class="min-w-full rounded-lg shadow">
@@ -188,11 +196,12 @@
 					>
 						<TableHead theadClass="sticky top-0 z-10 bg-gray-800">
 							<TableHeadCell class="whitespace-nowrap"></TableHeadCell>
+							<TableHeadCell class="whitespace-nowrap"></TableHeadCell>
 							<TableHeadCell
-								class="whitespace-nowrap"
+								class="max-w-[125px] whitespace-nowrap"
 								sort={(a: LinkObject, b: LinkObject) => a.shortened.localeCompare(b.shortened)}
 							>
-								Shortened URL
+								Shortened
 							</TableHeadCell>
 							<TableHeadCell
 								class="whitespace-nowrap"
@@ -207,6 +216,20 @@
 								defaultSort
 							>
 								Visits
+							</TableHeadCell>
+							<TableHeadCell
+								class="whitespace-nowrap"
+								sort={(a: LinkObject, b: LinkObject) => {
+									if (a.expires_at && b.expires_at) {
+										return new Date(a.expires_at).getTime() - new Date(b.expires_at).getTime();
+									} else if (a.expires_at) {
+										return 1;
+									} else {
+										return -1;
+									}
+								}}
+							>
+								Expires At
 							</TableHeadCell>
 							<TableHeadCell
 								class="whitespace-nowrap"
@@ -225,6 +248,17 @@
 							<TableBodyRow slot="row" let:item>
 								{@const link = item as LinkObject}
 								<TableBodyCell class="max-w-[65px]">
+									<button
+										onclick={() => {
+											selectedLink = { ...link };
+											isEditDialogOpen = true;
+										}}
+										class="group flex flex-col items-center justify-center"
+										><Edit size={24} class="group-hover:stroke-blue-400" />
+										<span class="group-hover:text-blue-400">Edit</span></button
+									>
+								</TableBodyCell>
+								<TableBodyCell class="max-w-[65px] px-0">
 									<button
 										onclick={() => {
 											selectedLink = { ...link };
@@ -262,6 +296,12 @@
 									</a>
 								</TableBodyCell>
 								<TableBodyCell>{link.visits}</TableBodyCell>
+								<TableBodyCell
+									class="whitespace-nowrap"
+									title={link.expires_at && formatDateTime(link.expires_at)}
+								>
+									{link.expires_at && formatDateTime(link.expires_at)}
+								</TableBodyCell>
 								<TableBodyCell class="whitespace-nowrap" title={formatDateTime(link.created_at)}>
 									{formatDateTime(link.created_at)}
 								</TableBodyCell>

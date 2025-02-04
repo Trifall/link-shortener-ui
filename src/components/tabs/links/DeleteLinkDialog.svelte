@@ -14,7 +14,7 @@
 		isDeleteDialogOpen: boolean;
 	};
 
-	let { selectedLink, isDeleteDialogOpen }: DeleteDialogProps = $props();
+	let { selectedLink, isDeleteDialogOpen = $bindable() }: DeleteDialogProps = $props();
 
 	let isSubmitting = $state(false);
 	let errorMessage = $state('');
@@ -144,7 +144,7 @@
 								<Spinner />
 							</div>
 						{:else}
-							Delete Key
+							Delete Link
 						{/if}
 					</button>
 				</div>
