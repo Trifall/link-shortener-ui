@@ -5,6 +5,7 @@
 	import type { KeyObject } from '@/types/key';
 	import { formatDateTime } from '@/util/dates';
 	import CreateKeyDialog from '@components/tabs/keys/CreateKeyDialog.svelte';
+	import DeleteKeyDialog from '@components/tabs/keys/DeleteKeyDialog.svelte';
 	import EditKeyDialog from '@components/tabs/keys/EditKeyDialog.svelte';
 	import {
 		Spinner,
@@ -15,7 +16,7 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
-	import { ClipboardCopy, Edit } from 'lucide-svelte';
+	import { ClipboardCopy, Edit, Trash2Icon } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	let { isAdmin }: { isAdmin: boolean } = $props();
@@ -23,8 +24,10 @@
 	let error: string | null = $state(null);
 	let keys: KeyObject[] = $state<KeyObject[]>([]);
 
-	let editKeyVal = $state<Partial<KeyObject> | undefined>();
-	let isDialogOpen = $state<boolean>(false);
+	let selectedKeyVal = $state<Partial<KeyObject> | undefined>();
+
+	let isEditDialogOpen = $state<boolean>(false);
+	let isDeleteDialogOpen = $state<boolean>(false);
 
 	const fetchKeys = async () => {
 		if (!isAdmin) return;
@@ -68,14 +71,16 @@
 	});
 </script>
 
-{#key editKeyVal}
+{#key selectedKeyVal}
 	<EditKeyDialog
-		key={editKeyVal?.key}
-		name={editKeyVal?.name}
-		is_active={editKeyVal?.is_active}
-		is_admin={editKeyVal?.is_admin}
-		{isDialogOpen}
+		key={selectedKeyVal?.key}
+		name={selectedKeyVal?.name}
+		is_active={selectedKeyVal?.is_active}
+		is_admin={selectedKeyVal?.is_admin}
+		isDialogOpen={isEditDialogOpen}
 	/>
+
+	<DeleteKeyDialog selectedKey={selectedKeyVal} isDeleteDialogOpen />
 {/key}
 
 <div class="min-w-full rounded-lg shadow">
@@ -165,6 +170,7 @@
 					>
 						<TableHead theadClass="sticky top-0 z-10 bg-gray-800">
 							<TableHeadCell class="whitespace-nowrap"></TableHeadCell>
+							<TableHeadCell class="whitespace-nowrap"></TableHeadCell>
 							<TableHeadCell
 								class="whitespace-nowrap"
 								sort={(a: KeyObject, b: KeyObject) => a.name.localeCompare(b.name)}
@@ -207,18 +213,35 @@
 								{@const key = item as KeyObject}
 								<TableBodyCell class="max-w-[50px]" title={key.name}>
 									<button
+										disabled={key.name.trim() === 'Root User'}
 										onclick={() => {
-											editKeyVal = {
-												key: key.key,
-												name: key.name,
-												is_admin: key.is_admin,
-												is_active: key.is_active
-											};
-											isDialogOpen = true;
+											if (key.name !== 'Root User') {
+												selectedKeyVal = {
+													key: key.key,
+													name: key.name,
+													is_admin: key.is_admin,
+													is_active: key.is_active
+												};
+												isEditDialogOpen = true;
+											}
 										}}
-										class="group flex flex-col items-center justify-center"
+										class="group flex flex-col items-center justify-center disabled:cursor-not-allowed disabled:opacity-25"
 										><Edit size={24} class="group-hover:stroke-blue-400" />
 										<span class="group-hover:text-blue-400">Edit</span></button
+									>
+								</TableBodyCell>
+								<TableBodyCell class="max-w-[65px]">
+									<button
+										disabled={key.name.trim() === 'Root User'}
+										onclick={() => {
+											if (key.name !== 'Root User') {
+												selectedKeyVal = { ...key };
+												isDeleteDialogOpen = true;
+											}
+										}}
+										class={`group flex flex-col items-center justify-center disabled:cursor-not-allowed disabled:opacity-25`}
+										><Trash2Icon size={24} class="group-hover:stroke-red-400" />
+										<span class="group-hover:text-red-400">Delete</span></button
 									>
 								</TableBodyCell>
 								<TableBodyCell class="max-w-[120px]" title={key.name}>
