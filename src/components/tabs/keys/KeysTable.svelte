@@ -72,15 +72,19 @@
 </script>
 
 {#key selectedKeyVal}
-	<EditKeyDialog
-		key={selectedKeyVal?.key}
-		name={selectedKeyVal?.name}
-		is_active={selectedKeyVal?.is_active}
-		is_admin={selectedKeyVal?.is_admin}
-		isDialogOpen={isEditDialogOpen}
-	/>
+	{#if isEditDialogOpen}
+		<EditKeyDialog
+			key={selectedKeyVal?.key}
+			name={selectedKeyVal?.name}
+			is_active={selectedKeyVal?.is_active}
+			is_admin={selectedKeyVal?.is_admin}
+			bind:isEditDialogOpen
+		/>
+	{/if}
 
-	<DeleteKeyDialog selectedKey={selectedKeyVal} isDeleteDialogOpen />
+	{#if isDeleteDialogOpen}
+		<DeleteKeyDialog selectedKey={selectedKeyVal} bind:isDeleteDialogOpen />
+	{/if}
 {/key}
 
 <div class="min-w-full rounded-lg shadow">
@@ -211,7 +215,7 @@
 						<TableBody tableBodyClass="">
 							<TableBodyRow slot="row" let:item>
 								{@const key = item as KeyObject}
-								<TableBodyCell class="max-w-[50px]" title={key.name}>
+								<TableBodyCell class="max-w-[50px] px-4" title={key.name}>
 									<button
 										disabled={key.name.trim() === 'Root User'}
 										onclick={() => {
@@ -230,7 +234,7 @@
 										<span class="group-hover:text-blue-400">Edit</span></button
 									>
 								</TableBodyCell>
-								<TableBodyCell class="max-w-[65px]">
+								<TableBodyCell class="max-w-[65px]  px-2">
 									<button
 										disabled={key.name.trim() === 'Root User'}
 										onclick={() => {
