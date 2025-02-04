@@ -5,6 +5,7 @@
 	import type { KeyObject } from '@/types/key';
 	import { formatDateTime } from '@/util/dates';
 	import CreateKeyDialog from '@components/tabs/keys/CreateKeyDialog.svelte';
+	import EditKeyDialog from '@components/tabs/keys/EditKeyDialog.svelte';
 	import {
 		Spinner,
 		Table,
@@ -14,13 +15,16 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
-	import { ClipboardCopy } from 'lucide-svelte';
+	import { ClipboardCopy, Edit } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	let { isAdmin }: { isAdmin: boolean } = $props();
 	let isLoading: boolean = $state(false);
 	let error: string | null = $state(null);
 	let keys: KeyObject[] = $state<KeyObject[]>([]);
+
+	let editKeyVal = $state<Partial<KeyObject> | undefined>();
+	let isDialogOpen = $state<boolean>(false);
 
 	const fetchKeys = async () => {
 		if (!isAdmin) return;
@@ -63,6 +67,16 @@
 		return () => window.removeEventListener('refreshKeys', refreshHandler);
 	});
 </script>
+
+{#key editKeyVal}
+	<EditKeyDialog
+		key={editKeyVal?.key}
+		name={editKeyVal?.name}
+		is_active={editKeyVal?.is_active}
+		is_admin={editKeyVal?.is_admin}
+		{isDialogOpen}
+	/>
+{/key}
 
 <div class="min-w-full rounded-lg shadow">
 	<div class="mb-4 flex flex-col items-center justify-between gap-4 sm:flex-row">
@@ -150,6 +164,7 @@
 						innerDivClass="py-4 px-0"
 					>
 						<TableHead theadClass="sticky top-0 z-10 bg-gray-800">
+							<TableHeadCell class="whitespace-nowrap"></TableHeadCell>
 							<TableHeadCell
 								class="whitespace-nowrap"
 								sort={(a: KeyObject, b: KeyObject) => a.name.localeCompare(b.name)}
@@ -190,10 +205,26 @@
 						<TableBody tableBodyClass="">
 							<TableBodyRow slot="row" let:item>
 								{@const key = item as KeyObject}
-								<TableBodyCell class="max-w-[120px] truncate" title={key.name}>
+								<TableBodyCell class="max-w-[50px]" title={key.name}>
+									<button
+										onclick={() => {
+											editKeyVal = {
+												key: key.key,
+												name: key.name,
+												is_admin: key.is_admin,
+												is_active: key.is_active
+											};
+											isDialogOpen = true;
+										}}
+										class="group flex flex-col items-center justify-center"
+										><Edit size={24} class="group-hover:stroke-blue-400" />
+										<span class="group-hover:text-blue-400">Edit</span></button
+									>
+								</TableBodyCell>
+								<TableBodyCell class="max-w-[120px]" title={key.name}>
 									{key.name}
 								</TableBodyCell>
-								<TableBodyCell class="flex items-center justify-start gap-2">
+								<TableBodyCell class="flex min-h-20 items-center justify-start gap-2">
 									<ClipboardCopy
 										size={20}
 										onclick={() => handleKeyCopy(key.key)}
