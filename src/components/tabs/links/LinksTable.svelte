@@ -5,6 +5,7 @@
 	import type { LinkObject } from '@/types/link';
 	import { formatDateTime } from '@/util/dates';
 	import CreateLinkDialog from '@components/tabs/links/CreateLinkDialog.svelte';
+	import DeleteLinkDialog from '@components/tabs/links/DeleteLinkDialog.svelte';
 	import {
 		Spinner,
 		Table,
@@ -14,13 +15,16 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
-	import { ClipboardCopy } from 'lucide-svelte';
+	import { ClipboardCopy, Trash2Icon } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	let { isAdmin }: { isAdmin: boolean } = $props();
-	let isLoading: boolean = $state(false);
-	let error: string | null = $state(null);
-	let links: LinkObject[] = $state<LinkObject[]>([]);
+	let isLoading = $state<boolean>(false);
+	let error = $state<string | null>(null);
+	let links = $state<LinkObject[]>([]);
+
+	let selectedLink = $state<LinkObject | undefined>(undefined);
+	let isDeleteDialogOpen = $state<boolean>(false);
 
 	// API configuration
 	const getApiConfig = () => {
@@ -77,6 +81,10 @@
 		return () => window.removeEventListener('refreshLinks', refreshHandler);
 	});
 </script>
+
+{#key selectedLink}
+	<DeleteLinkDialog {selectedLink} {isDeleteDialogOpen} />
+{/key}
 
 <div class="min-w-full rounded-lg shadow">
 	<div class="mb-4 flex flex-col items-center justify-between gap-4 sm:flex-row">
@@ -179,11 +187,12 @@
 						innerDivClass="py-4 px-0"
 					>
 						<TableHead theadClass="sticky top-0 z-10 bg-gray-800">
+							<TableHeadCell class="whitespace-nowrap"></TableHeadCell>
 							<TableHeadCell
 								class="whitespace-nowrap"
 								sort={(a: LinkObject, b: LinkObject) => a.shortened.localeCompare(b.shortened)}
 							>
-								Short URL
+								Shortened URL
 							</TableHeadCell>
 							<TableHeadCell
 								class="whitespace-nowrap"
@@ -215,6 +224,17 @@
 						<TableBody tableBodyClass="">
 							<TableBodyRow slot="row" let:item>
 								{@const link = item as LinkObject}
+								<TableBodyCell class="max-w-[65px]">
+									<button
+										onclick={() => {
+											selectedLink = { ...link };
+											isDeleteDialogOpen = true;
+										}}
+										class="group flex flex-col items-center justify-center"
+										><Trash2Icon size={24} class="group-hover:stroke-red-400" />
+										<span class="group-hover:text-red-400">Delete</span></button
+									>
+								</TableBodyCell>
 								<TableBodyCell class="max-w-[120px] truncate">
 									<a
 										href={`${API_URL}/${link.shortened}`}
@@ -249,7 +269,7 @@
 									<TableBodyCell class="max-w-[200px] truncate" title={link.secret_key.name}>
 										{link.secret_key.name}
 									</TableBodyCell>
-									<TableBodyCell class="flex items-center justify-start gap-2">
+									<TableBodyCell class="flex min-h-20 items-center justify-start gap-2">
 										<ClipboardCopy
 											size={20}
 											onclick={() => {
