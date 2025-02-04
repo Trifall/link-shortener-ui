@@ -21,7 +21,7 @@
 
 	let shortened = $state(selectedLink?.shortened ?? '');
 
-	const updateKeySchema = z.object({
+	const deleteLinkSchema = z.object({
 		shortened: z.string()
 	});
 
@@ -41,7 +41,7 @@
 			isSubmitting = true;
 			errorMessage = '';
 
-			const validatedData = updateKeySchema.parse({
+			const validatedData = deleteLinkSchema.parse({
 				shortened: shortened
 			});
 
