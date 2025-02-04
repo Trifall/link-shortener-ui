@@ -37,21 +37,29 @@
 			<TabItem
 				open
 				title="Profile"
-				class="ml-4 flex flex-col justify-end"
-				defaultClass="!p-2 text-sm"
+				class="ml-4 flex flex-col justify-end "
+				defaultClass="!p-2 text-base min-w-[65px]"
 			>
 				<div class="mb-6 rounded-lg bg-gray-800 p-6 shadow">
 					<LinksTable isAdmin={GlobalKeyState.is_admin} />
 				</div>
 			</TabItem>
 			{#if GlobalKeyState.is_admin}
-				<TabItem title="Keys" class="flex flex-col justify-end" defaultClass="!p-2 text-sm">
+				<TabItem
+					title="Keys"
+					class="flex flex-col justify-end"
+					defaultClass="!p-2 text-base min-w-[65px]"
+				>
 					<div class="mb-6 rounded-lg bg-gray-800 p-6 shadow">
 						<KeysTable isAdmin={GlobalKeyState.is_admin} />
 					</div>
 				</TabItem>
 			{/if}
-			<TabItem title="Settings" class="flex flex-col justify-end" defaultClass="!p-2 text-sm">
+			<TabItem
+				title="Settings"
+				class="flex flex-col justify-end"
+				defaultClass="!p-2 text-base min-w-[65px]"
+			>
 				<Settings />
 			</TabItem>
 		</Tabs>
