@@ -13,10 +13,16 @@ export default {
 				spin: {
 					'0%': { transform: 'rotate(0deg)' },
 					'100%': { transform: 'rotate(360deg)' }
+				},
+				gradient: {
+					to: {
+						backgroundPosition: 'var(--bg-size) 0'
+					}
 				}
 			},
 			animation: {
-				'spin-slow': 'spin 10s linear infinite'
+				'spin-slow': 'spin 10s linear infinite',
+				gradient: 'gradient 8s linear infinite'
 			}
 		}
 	},
