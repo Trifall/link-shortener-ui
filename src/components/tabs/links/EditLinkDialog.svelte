@@ -85,8 +85,13 @@
 			}
 
 			const reqObj = { ...selectedLink } as EditLinkObject;
+			// check for a new_shortened url, if its equal to the already existing one, then delete the field
 			if (selectedLink?.new_shortened && selectedLink?.new_shortened?.length > 0) {
-				reqObj.new_shortened = selectedLink.new_shortened;
+				if (selectedLink.shortened !== selectedLink.new_shortened.trim()) {
+					reqObj.new_shortened = selectedLink.new_shortened.trim();
+				} else {
+					delete reqObj.new_shortened;
+				}
 			}
 
 			const validatedData = editLinkObjectSchema.parse(reqObj);
@@ -106,7 +111,8 @@
 				throw new Error(FormatError(data.message) || 'Failed to edit link');
 			}
 
-			showToast('Edited link successfully!');
+			navigator?.clipboard?.writeText(`${API_URL}/${data?.shortened}`);
+			showToast('Edited link successfully! It has been copied to your clipboard.');
 			closeDialog();
 			window.dispatchEvent(new CustomEvent('refreshLinks'));
 		} catch (err) {
