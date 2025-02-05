@@ -3,6 +3,10 @@
 @import 'tailwindcss/utilities';
 
 @layer base {
+	html {
+		scroll-behavior: smooth;
+	}
+
 	/* Prevent table from creating new stacking context */
 	#links-table {
 		position: static;
