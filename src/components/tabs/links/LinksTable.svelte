@@ -198,7 +198,14 @@
 							<TableHeadCell class="whitespace-nowrap"></TableHeadCell>
 							<TableHeadCell class="whitespace-nowrap"></TableHeadCell>
 							<TableHeadCell
-								class="max-w-[125px] whitespace-nowrap"
+								class=" whitespace-nowrap"
+								sort={(a: LinkObject, b: LinkObject) =>
+									a.is_active === b.is_active ? 0 : a.is_active ? -1 : 1}
+							>
+								Active
+							</TableHeadCell>
+							<TableHeadCell
+								class="min-w-[175px] whitespace-nowrap"
 								sort={(a: LinkObject, b: LinkObject) => a.shortened.localeCompare(b.shortened)}
 							>
 								Shortened
@@ -268,6 +275,13 @@
 										><Trash2Icon size={24} class="group-hover:stroke-red-400" />
 										<span class="group-hover:text-red-400">Delete</span></button
 									>
+								</TableBodyCell>
+								<TableBodyCell class="flex items-center justify-center">
+									{#if link.is_active}
+										<span class="text-green-400">✓</span>
+									{:else}
+										<span class="text-red-400">✗</span>
+									{/if}
 								</TableBodyCell>
 								<TableBodyCell class="max-w-[120px] truncate">
 									<a
