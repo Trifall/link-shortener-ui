@@ -51,7 +51,6 @@
 					return;
 				}
 
-				console.log('Validate Key Response:', result.data);
 				UpdateKeyState(result!.data!.key!);
 				closeDialog();
 			}
