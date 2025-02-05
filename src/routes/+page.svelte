@@ -118,7 +118,8 @@
 							<Cloudflare />
 						</div>
 						<p class="mb-4 text-gray-300">
-							Built with Svelte 5 and TailwindCSS for a modern, responsive experience
+							Built with Svelte 5 and TailwindCSS and hosted on Cloudflare for a modern, responsive
+							experience
 						</p>
 						<a
 							href="https://github.com/Trifall/link-shortener-ui"
