@@ -75,7 +75,7 @@
 				throw new Error(FormatError(data.message) || 'Failed to create link');
 			}
 
-			navigator?.clipboard?.writeText(`${API_URL}/${data?.shortened_url}`);
+			navigator?.clipboard?.writeText(`${API_URL}/${data?.shortened}`);
 			showToast('Link created successfully! It has been copied to your clipboard.');
 
 			closeDialog();
