@@ -1,4 +1,6 @@
 <script lang="ts">
+	import createLinkVideo from '$lib/assets/create-link.mp4';
+	import dashboardVideo from '$lib/assets/dashboard.mp4';
 	import Cloudflare from '@/icon/logos/Cloudflare.svelte';
 	import Docker from '@/icon/logos/Docker.svelte';
 	import Golang from '@/icon/logos/Golang.svelte';
@@ -86,8 +88,9 @@
 				<AnimatedGradientText spanClassName="mb-16 !h-12 text-center text-4xl font-bold"
 					>Key Features</AnimatedGradientText
 				>
-				<div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-					{#each [{ title: 'Secret-Key System', description: 'Generate root keys and create hierarchical access with granular permissions' }, { title: 'API Documentation', description: 'Comprehensive Swagger documentation for seamless integration' }, { title: 'Interactive Dashboard', description: 'Modern dashboard for link creation and management' }, { title: 'Link Expiration', description: 'Set precise expiration times for temporary links' }, { title: 'Simplified Backend', description: 'Contains robust logging and authentication middleware' }, { title: 'Smooth UI', description: 'Responsive design with intuitive notifications' }] as feature}
+
+				<div class="mb-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+					{#each [{ title: 'Link Expiration', description: 'Set precise expiration times for temporary links' }, { title: 'Simplified Backend', description: 'Contains robust logging and authentication middleware' }, { title: 'Smooth UI', description: 'Responsive design with intuitive notifications' }] as feature}
 						<div
 							class="transform rounded-lg bg-gray-800 p-6 transition-all hover:-translate-y-1 hover:bg-gray-700"
 							in:fly={{ y: 20, duration: 600, delay: 200 }}
@@ -96,6 +99,41 @@
 							<p class="text-gray-300">{feature.description}</p>
 						</div>
 					{/each}
+				</div>
+				<div class="mb-8 flex w-full items-center justify-center">
+					<video
+						autoplay
+						muted
+						loop
+						class="w-full rounded-lg border-2 border-gray-700 lg:max-w-3xl xl:max-w-5xl"
+						src={dashboardVideo}
+					>
+						Your browser does not support the video tag.
+					</video>
+				</div>
+
+				<div class="mb-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+					{#each [{ title: 'Secret-Key System', description: 'Generate root keys and create hierarchical access with granular permissions' }, { title: 'API Documentation', description: 'Comprehensive Swagger documentation for seamless integration' }, { title: 'Interactive Dashboard', description: 'Modern dashboard for link creation and management' }] as feature}
+						<div
+							class="transform rounded-lg bg-gray-800 p-6 transition-all hover:-translate-y-1 hover:bg-gray-700"
+							in:fly={{ y: 20, duration: 600, delay: 200 }}
+						>
+							<h3 class="mb-3 text-xl font-semibold">{feature.title}</h3>
+							<p class="text-gray-300">{feature.description}</p>
+						</div>
+					{/each}
+				</div>
+
+				<div class="mb-8 flex w-full items-center justify-center">
+					<video
+						autoplay
+						muted
+						loop
+						class="w-full rounded-lg border-2 border-gray-700 lg:max-w-3xl xl:max-w-5xl"
+						src={createLinkVideo}
+					>
+						Your browser does not support the video tag.
+					</video>
 				</div>
 			</div>
 		{/if}
@@ -150,6 +188,17 @@
 						</a>
 					</div>
 				</div>
+			</div>
+		{/if}
+	</section>
+
+	<!-- Demo Videos Section -->
+	<section id="demos" class="container mx-auto px-4 py-24">
+		{#if visibleSections.has('demos')}
+			<div in:fade={{ duration: 1000 }}>
+				<AnimatedGradientText spanClassName="mb-16 !h-12 text-center text-4xl font-bold">
+					Demo Videos
+				</AnimatedGradientText>
 			</div>
 		{/if}
 	</section>
