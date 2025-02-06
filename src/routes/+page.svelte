@@ -8,9 +8,10 @@
 	import Svelte from '@/icon/logos/Svelte.svelte';
 	import Swagger from '@/icon/logos/Swagger.svelte';
 	import Tailwindcss from '@/icon/logos/Tailwindcss.svelte';
+	import { Routes } from '@/lib/Links';
 	import Footer from '@components/Footer.svelte';
 	import AnimatedGradientText from '@components/ui/AnimatedGradientText.svelte';
-	import { Github } from 'lucide-svelte';
+	import { Github, SquareArrowUpRight } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { Spring } from 'svelte/motion';
 	import { fade, fly } from 'svelte/transition';
@@ -54,7 +55,8 @@
 	>
 		{#if visibleSections.has('hero')}
 			<div in:fade={{ duration: 1000 }} class="flex flex-col items-center justify-center">
-				<AnimatedGradientText spanClassName="mb-6 h-20 text-center text-6xl font-bold md:text-7xl"
+				<AnimatedGradientText
+					spanClassName="mb-6 sm:h-20 text-center text-6xl font-bold md:text-7xl"
 					>Simplify Your Links</AnimatedGradientText
 				>
 				<p
@@ -62,19 +64,26 @@
 				>
 					A simple and concise link shortener built with Svelte and Go
 				</p>
-				<div class="flex w-full max-w-md flex-col justify-center gap-4 md:flex-row">
+				<div class="flex w-full flex-col justify-between gap-2 md:flex-row">
 					<a
 						href="#features"
-						class="flex-1 rounded-lg bg-blue-600 px-8 py-3 text-center transition-colors hover:bg-blue-700"
+						class="flex flex-1 items-center justify-center rounded-lg bg-blue-600 px-2 py-3 text-center transition-colors hover:bg-blue-500"
 					>
 						Learn more
 					</a>
 					<a
-						href="https://github.com/Trifall/link-shortener-ui"
-						class="flex flex-1 items-center justify-center gap-1 rounded-lg bg-gray-800 px-8 py-3 transition-colors hover:bg-gray-700"
+						href={Routes.FRONTEND_REPO}
+						class="flex flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-sm transition-colors hover:bg-gray-600"
 					>
 						<Github />
-						View on GitHub
+						View Frontend Repo
+					</a>
+					<a
+						href={Routes.BACKEND_REPO}
+						class="flex flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-sm transition-colors hover:bg-gray-600"
+					>
+						<Github />
+						View Backend Repo
 					</a>
 				</div>
 			</div>
@@ -164,14 +173,22 @@
 							experience
 						</p>
 
-						<div class="flex w-full items-center justify-start">
+						<div class="xs:flex-row flex w-full flex-col items-center justify-start gap-2">
 							<a
-								href="https://github.com/Trifall/link-shortener-ui"
+								href={Routes.FRONTEND_REPO}
 								target="_blank"
-								class="flex max-w-[225px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
+								class="flex min-w-[165px] max-w-[165px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
 							>
 								<Github />
 								View on GitHub
+							</a>
+							<a
+								data-sveltekit-reload
+								href={Routes.DASHBOARD}
+								class="flex min-w-[200px] max-w-[200px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
+							>
+								<SquareArrowUpRight />
+								View live Dashboard
 							</a>
 						</div>
 					</div>
@@ -190,14 +207,22 @@
 							Powered by Go with PostgreSQL, Docker support, and Swagger documentation
 						</p>
 
-						<div class="flex w-full items-center justify-start">
+						<div class="xs:flex-row flex w-full flex-col items-center justify-start gap-2">
 							<a
-								href="https://github.com/Trifall/go-link-shortener"
+								href={Routes.BACKEND_REPO}
 								target="_blank"
-								class="flex max-w-[225px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
+								class="flex min-w-[165px] max-w-[165px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
 							>
 								<Github />
 								View on GitHub
+							</a>
+							<a
+								href={Routes.DOCS}
+								target="_blank"
+								class="flex min-w-[165px] max-w-[165px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
+							>
+								<SquareArrowUpRight />
+								View live Docs
 							</a>
 						</div>
 					</div>

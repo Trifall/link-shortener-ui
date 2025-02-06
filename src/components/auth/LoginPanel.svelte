@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { Routes } from '@/lib/Links';
+	import { HomeIcon } from 'lucide-svelte';
 	import AuthButton from './AuthButton.svelte';
 </script>
 
@@ -7,14 +9,22 @@
 		Link Shortener
 	</h1>
 	<div class="flex flex-col items-center justify-center gap-2 p-4 text-white">
-		<p class="text-balance text-center text-lg sm:text-2xl">
+		<p class="max-w-5xl text-balance text-center text-lg sm:text-2xl">
 			A secret key is required to access the link shortener UI.
 		</p>
-		<p class="text-balance text-center text-lg sm:text-2xl">
-			Please authorize by entering your secret key.
+		<p class="mt-4 max-w-xl text-balance text-center text-lg text-gray-300">
+			If you do not have one, then you can try contacting the server administrator to get one.
 		</p>
 	</div>
 	<AuthButton />
+	<a
+		data-sveltekit-reload
+		href={Routes.HOME}
+		class="flex min-w-[225px] max-w-[225px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
+	>
+		<HomeIcon />
+		Return to home page
+	</a>
 
 	<!-- TODO: Remove this testing code
 	<button
