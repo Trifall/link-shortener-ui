@@ -9,6 +9,9 @@ export default {
 	],
 	theme: {
 		extend: {
+			screens: {
+				xs: '480px'
+			},
 			keyframes: {
 				spin: {
 					'0%': { transform: 'rotate(0deg)' },

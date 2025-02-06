@@ -84,15 +84,17 @@
 	<!-- Features Section -->
 	<section id="features" class="container mx-auto px-4 py-24">
 		{#if visibleSections.has('features')}
-			<div in:fade={{ duration: 1000 }}>
+			<div in:fade={{ duration: 1000 }} class="flex flex-col items-center justify-center">
 				<AnimatedGradientText spanClassName="mb-16 !h-12 text-center text-4xl font-bold"
 					>Key Features</AnimatedGradientText
 				>
 
-				<div class="mb-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-					{#each [{ title: 'Link Expiration', description: 'Set precise expiration times for temporary links' }, { title: 'Simplified Backend', description: 'Contains robust logging and authentication middleware' }, { title: 'Smooth UI', description: 'Responsive design with intuitive notifications' }] as feature}
+				<div
+					class="mb-8 flex flex-col items-center justify-center gap-8 md:grid-cols-2 lg:grid lg:grid-cols-3 lg:items-stretch lg:justify-normal 2xl:max-w-7xl"
+				>
+					{#each [{ title: 'Interactive Dashboard', description: 'Modern dashboard for link creation and management' }, { title: 'Simplified Backend', description: 'Contains robust logging and authentication middleware' }, { title: 'Smooth UI', description: 'Responsive design with easy to understand menus and simple notifications' }] as feature}
 						<div
-							class="transform rounded-lg bg-gray-800 p-6 transition-all hover:-translate-y-1 hover:bg-gray-700"
+							class="xs:w-[80vw] w-[90vw] transform rounded-lg bg-gray-800 p-6 transition-all hover:-translate-y-1 hover:bg-gray-700 sm:min-h-[110px] sm:w-[60vw] lg:w-auto xl:max-w-[420px]"
 							in:fly={{ y: 20, duration: 600, delay: 200 }}
 						>
 							<h3 class="mb-3 text-xl font-semibold">{feature.title}</h3>
@@ -112,10 +114,12 @@
 					</video>
 				</div>
 
-				<div class="mb-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-					{#each [{ title: 'Secret-Key System', description: 'Generate root keys and create hierarchical access with granular permissions' }, { title: 'API Documentation', description: 'Comprehensive Swagger documentation for seamless integration' }, { title: 'Interactive Dashboard', description: 'Modern dashboard for link creation and management' }] as feature}
+				<div
+					class="mb-8 flex flex-col items-center justify-center gap-8 md:grid-cols-2 lg:grid lg:grid-cols-3 lg:items-stretch lg:justify-normal 2xl:max-w-7xl"
+				>
+					{#each [{ title: 'Secret-Key System', description: 'Generate root keys and create hierarchical access with granular permissions' }, { title: 'Link Expiration', description: 'Set precise expiration times for temporary links, which will automatically remove them once the time is up' }, { title: 'API Documentation', description: 'Comprehensive Swagger documentation for full transparency and easy integration with any other service' }] as feature}
 						<div
-							class="transform rounded-lg bg-gray-800 p-6 transition-all hover:-translate-y-1 hover:bg-gray-700"
+							class="xs:w-[80vw] w-[90vw] transform rounded-lg bg-gray-800 p-6 transition-all hover:-translate-y-1 hover:bg-gray-700 sm:min-h-[110px] sm:w-[60vw] lg:w-auto xl:max-w-[420px]"
 							in:fly={{ y: 20, duration: 600, delay: 200 }}
 						>
 							<h3 class="mb-3 text-xl font-semibold">{feature.title}</h3>
@@ -146,9 +150,9 @@
 				<AnimatedGradientText spanClassName="mb-16 !h-12 text-center text-4xl font-bold"
 					>Built With Modern Tech</AnimatedGradientText
 				>
-				<div class="grid gap-12 md:grid-cols-2">
+				<div class="flex flex-col items-center justify-center gap-12 lg:grid lg:grid-cols-2">
 					<!-- Frontend Card -->
-					<div class="w-full rounded-lg bg-gray-800 p-8 transition-all hover:bg-gray-700">
+					<div class="w-full max-w-[600px] rounded-lg bg-gray-800 p-8">
 						<h3 class="mb-4 text-2xl font-bold">Frontend</h3>
 						<div class="mb-4 flex flex-wrap gap-4">
 							<Svelte />
@@ -159,16 +163,21 @@
 							Built with Svelte 5 and TailwindCSS and hosted on Cloudflare for a modern, responsive
 							experience
 						</p>
-						<a
-							href="https://github.com/Trifall/link-shortener-ui"
-							class="inline-flex items-center text-blue-400 hover:text-blue-300"
-						>
-							View on GitHub →
-						</a>
+
+						<div class="flex w-full items-center justify-start">
+							<a
+								href="https://github.com/Trifall/link-shortener-ui"
+								target="_blank"
+								class="flex max-w-[225px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
+							>
+								<Github />
+								View on GitHub
+							</a>
+						</div>
 					</div>
 
 					<!-- Backend Card -->
-					<div class="w-full rounded-lg bg-gray-800 p-8 transition-all hover:bg-gray-700">
+					<div class="w-full max-w-[600px] rounded-lg bg-gray-800 p-8">
 						<h3 class="mb-4 text-2xl font-bold">Backend</h3>
 						<div class="mb-4 flex flex-wrap gap-4">
 							<Golang size={48} />
@@ -180,25 +189,19 @@
 						<p class="mb-4 text-gray-300">
 							Powered by Go with PostgreSQL, Docker support, and Swagger documentation
 						</p>
-						<a
-							href="https://github.com/Trifall/go-link-shortener"
-							class="inline-flex items-center text-blue-400 hover:text-blue-300"
-						>
-							View on GitHub →
-						</a>
+
+						<div class="flex w-full items-center justify-start">
+							<a
+								href="https://github.com/Trifall/go-link-shortener"
+								target="_blank"
+								class="flex max-w-[225px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
+							>
+								<Github />
+								View on GitHub
+							</a>
+						</div>
 					</div>
 				</div>
-			</div>
-		{/if}
-	</section>
-
-	<!-- Demo Videos Section -->
-	<section id="demos" class="container mx-auto px-4 py-24">
-		{#if visibleSections.has('demos')}
-			<div in:fade={{ duration: 1000 }}>
-				<AnimatedGradientText spanClassName="mb-16 !h-12 text-center text-4xl font-bold">
-					Demo Videos
-				</AnimatedGradientText>
 			</div>
 		{/if}
 	</section>
