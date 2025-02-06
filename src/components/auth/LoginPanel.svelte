@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Routes } from '@/lib/Links';
+	import { Links } from '@/lib/Links';
 	import { HomeIcon } from 'lucide-svelte';
 	import AuthButton from './AuthButton.svelte';
 </script>
@@ -19,7 +19,7 @@
 	<AuthButton />
 	<a
 		data-sveltekit-reload
-		href={Routes.HOME}
+		href={Links.HOME}
 		class="flex min-w-[225px] max-w-[225px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
 	>
 		<HomeIcon />

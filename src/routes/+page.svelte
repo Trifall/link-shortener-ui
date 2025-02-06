@@ -8,7 +8,7 @@
 	import Svelte from '@/icon/logos/Svelte.svelte';
 	import Swagger from '@/icon/logos/Swagger.svelte';
 	import Tailwindcss from '@/icon/logos/Tailwindcss.svelte';
-	import { Routes } from '@/lib/Links';
+	import { Links } from '@/lib/Links';
 	import Footer from '@components/Footer.svelte';
 	import AnimatedGradientText from '@components/ui/AnimatedGradientText.svelte';
 	import { Github, SquareArrowUpRight } from 'lucide-svelte';
@@ -64,23 +64,25 @@
 				>
 					A simple and concise link shortener built with Svelte and Go
 				</p>
-				<div class="flex w-full flex-col justify-between gap-2 md:flex-row">
+				<div
+					class="flex w-full flex-col items-center justify-center gap-2 md:flex-row md:justify-between"
+				>
 					<a
 						href="#features"
-						class="flex flex-1 items-center justify-center rounded-lg bg-blue-600 px-2 py-3 text-center transition-colors hover:bg-blue-500"
+						class="flex min-w-[180px] max-w-[250px] flex-1 items-center justify-center rounded-lg bg-blue-600 px-2 py-3 text-center transition-colors hover:bg-blue-500"
 					>
 						Learn more
 					</a>
 					<a
-						href={Routes.FRONTEND_REPO}
-						class="flex flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-sm transition-colors hover:bg-gray-600"
+						href={Links.FRONTEND_REPO}
+						class="flex min-w-[180px] max-w-[250px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-sm transition-colors hover:bg-gray-600"
 					>
 						<Github />
 						View Frontend Repo
 					</a>
 					<a
-						href={Routes.BACKEND_REPO}
-						class="flex flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-sm transition-colors hover:bg-gray-600"
+						href={Links.BACKEND_REPO}
+						class="flex min-w-[180px] max-w-[250px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-sm transition-colors hover:bg-gray-600"
 					>
 						<Github />
 						View Backend Repo
@@ -103,7 +105,7 @@
 				>
 					{#each [{ title: 'Interactive Dashboard', description: 'Modern dashboard for link creation and management' }, { title: 'Simplified Backend', description: 'Contains robust logging and authentication middleware' }, { title: 'Smooth UI', description: 'Responsive design with easy to understand menus and simple notifications' }] as feature}
 						<div
-							class="xs:w-[80vw] w-[90vw] transform rounded-lg bg-gray-800 p-6 transition-all hover:-translate-y-1 hover:bg-gray-700 sm:min-h-[110px] sm:w-[60vw] lg:w-auto xl:max-w-[420px]"
+							class="w-[90vw] transform rounded-lg bg-gray-800 p-6 transition-all hover:-translate-y-1 hover:bg-gray-700 xs:w-[80vw] sm:min-h-[110px] sm:w-[60vw] lg:w-auto xl:max-w-[420px]"
 							in:fly={{ y: 20, duration: 600, delay: 200 }}
 						>
 							<h3 class="mb-3 text-xl font-semibold">{feature.title}</h3>
@@ -128,7 +130,7 @@
 				>
 					{#each [{ title: 'Secret-Key System', description: 'Generate root keys and create hierarchical access with granular permissions' }, { title: 'Link Expiration', description: 'Set precise expiration times for temporary links, which will automatically remove them once the time is up' }, { title: 'API Documentation', description: 'Comprehensive Swagger documentation for full transparency and easy integration with any other service' }] as feature}
 						<div
-							class="xs:w-[80vw] w-[90vw] transform rounded-lg bg-gray-800 p-6 transition-all hover:-translate-y-1 hover:bg-gray-700 sm:min-h-[110px] sm:w-[60vw] lg:w-auto xl:max-w-[420px]"
+							class="w-[90vw] transform rounded-lg bg-gray-800 p-6 transition-all hover:-translate-y-1 hover:bg-gray-700 xs:w-[80vw] sm:min-h-[110px] sm:w-[60vw] lg:w-auto xl:max-w-[420px]"
 							in:fly={{ y: 20, duration: 600, delay: 200 }}
 						>
 							<h3 class="mb-3 text-xl font-semibold">{feature.title}</h3>
@@ -173,9 +175,9 @@
 							experience
 						</p>
 
-						<div class="xs:flex-row flex w-full flex-col items-center justify-start gap-2">
+						<div class="flex w-full flex-col items-center justify-start gap-2 xs:flex-row">
 							<a
-								href={Routes.FRONTEND_REPO}
+								href={Links.FRONTEND_REPO}
 								target="_blank"
 								class="flex min-w-[165px] max-w-[165px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
 							>
@@ -184,7 +186,7 @@
 							</a>
 							<a
 								data-sveltekit-reload
-								href={Routes.DASHBOARD}
+								href={Links.DASHBOARD}
 								class="flex min-w-[200px] max-w-[200px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
 							>
 								<SquareArrowUpRight />
@@ -207,9 +209,9 @@
 							Powered by Go with PostgreSQL, Docker support, and Swagger documentation
 						</p>
 
-						<div class="xs:flex-row flex w-full flex-col items-center justify-start gap-2">
+						<div class="flex w-full flex-col items-center justify-start gap-2 xs:flex-row">
 							<a
-								href={Routes.BACKEND_REPO}
+								href={Links.BACKEND_REPO}
 								target="_blank"
 								class="flex min-w-[165px] max-w-[165px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
 							>
@@ -217,7 +219,7 @@
 								View on GitHub
 							</a>
 							<a
-								href={Routes.DOCS}
+								href={Links.DOCS}
 								target="_blank"
 								class="flex min-w-[165px] max-w-[165px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
 							>
