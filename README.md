@@ -2,6 +2,8 @@
 
 This is a Svelte 5 project that uses Tailwind and TypeScript to be a web UI for [go-link-shortener](https://github.com/jerren/go-link-shortener).
 
+The dashboard makes calls to the [go-link-shortener](https://github.com/jerren/go-link-shortener) API, so you will need to have that sorted for the app to really be functional.
+
 ## Developing
 
 Install dependencies with `pnpm install`
