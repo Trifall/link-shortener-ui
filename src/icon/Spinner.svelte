@@ -1,11 +1,15 @@
+<script>
+	let { size = 16, stroke = 'currentColor' } = $props(); // Default size of 16px
+</script>
+
 <span class="animate-spin">
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
-		width="16"
-		height="16"
+		width={size}
+		height={size}
 		viewBox="0 0 24 24"
 		fill="none"
-		stroke="currentColor"
+		{stroke}
 		stroke-width="2"
 		stroke-linecap="round"
 		stroke-linejoin="round"

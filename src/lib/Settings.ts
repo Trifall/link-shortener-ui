@@ -15,7 +15,15 @@ export const loadSettings = (): Settings => {
 
 // Key cookie utilities
 export const saveKeyCookie = (key: string): void => {
-	document.cookie = `${KEY_COOKIE_NAME}=${key}; path=/; max-age=${60 * 60 * 24 * 365}`; // 1 year
+	const cookieOptions = [
+		`${KEY_COOKIE_NAME}=${key}`,
+		'path=/',
+		`max-age=${60 * 60 * 24 * 365}`, // 1 year
+		'SameSite=None', // Ensure the cookie is sent in third-party contexts
+		'Secure' // Required when SameSite=None
+	].join('; ');
+
+	document.cookie = cookieOptions;
 };
 
 // deletes the key_cookie that would be stored in the saveKeyCookie function
@@ -24,7 +32,10 @@ export const deleteKeyCookie = (): void => {
 };
 
 export const loadKeyCookie = (): string | null => {
-	const cookie = document.cookie.split('; ').find((row) => row.startsWith(KEY_COOKIE_NAME));
+	if (document && document.cookie) {
+		const cookie = document.cookie.split('; ').find((row) => row.startsWith(KEY_COOKIE_NAME));
 
-	return cookie ? cookie.split('=')[1] : null;
+		return cookie ? cookie.split('=')[1] : null;
+	}
+	return null;
 };

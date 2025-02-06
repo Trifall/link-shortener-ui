@@ -1,3 +1,4 @@
+import { loadSettings, saveKeyCookie } from '@/lib/Settings';
 import type { KeyObject } from '@/types/key';
 
 export const GlobalKeyState = $state<KeyObject>({
@@ -19,6 +20,11 @@ export const IsValidKeyState = () => {
 };
 
 export const UpdateKeyState = (key: KeyObject) => {
+	const settings = loadSettings();
+	if (settings?.saveKey) {
+		saveKeyCookie(key.key);
+	}
+
 	GlobalKeyState.key = key.key;
 	GlobalKeyState.name = key.name;
 	GlobalKeyState.is_active = key.is_active;
