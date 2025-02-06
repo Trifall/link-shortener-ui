@@ -75,14 +75,14 @@
 					</a>
 					<a
 						href={Links.FRONTEND_REPO}
-						class="flex min-w-[180px] max-w-[250px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-sm transition-colors hover:bg-gray-600"
+						class="flex min-w-[180px] max-w-[250px] flex-1 items-center justify-start gap-1 rounded-lg bg-gray-700 px-2 py-3 text-sm transition-colors hover:bg-gray-600 md:justify-center"
 					>
 						<Github />
 						View Frontend Repo
 					</a>
 					<a
 						href={Links.BACKEND_REPO}
-						class="flex min-w-[180px] max-w-[250px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-sm transition-colors hover:bg-gray-600"
+						class="flex min-w-[180px] max-w-[250px] flex-1 items-center justify-start gap-1 rounded-lg bg-gray-700 px-2 py-3 text-sm transition-colors hover:bg-gray-600 md:justify-center"
 					>
 						<Github />
 						View Backend Repo
@@ -158,10 +158,10 @@
 	<section id="tech" class="mx-auto px-4 py-24 lg:container">
 		{#if visibleSections.has('tech')}
 			<div in:fade={{ duration: 1000 }}>
-				<AnimatedGradientText spanClassName="mb-16 !h-12 text-center text-4xl font-bold"
+				<AnimatedGradientText spanClassName="mb-16 sm:h-12 text-center text-4xl font-bold"
 					>Built With Modern Tech</AnimatedGradientText
 				>
-				<div class="flex flex-col items-center justify-center gap-12 lg:grid lg:grid-cols-2">
+				<div class="flex flex-col flex-wrap items-center justify-center gap-12 lg:flex-row">
 					<!-- Frontend Card -->
 					<div class="w-full max-w-[600px] rounded-lg bg-gray-800 p-8">
 						<h3 class="mb-4 text-2xl font-bold">Frontend</h3>
