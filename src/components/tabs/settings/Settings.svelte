@@ -34,12 +34,7 @@
 	<span class="text-xl font-semibold">Settings</span>
 	<hr class="mb-4" />
 	<div class="flex flex-col pl-4">
-		<Checkbox
-			defaultChecked
-			bind:checked={settings.saveKey}
-			id="save-key-checkbox"
-			class="text-base"
-		>
+		<Checkbox bind:checked={settings.saveKey} id="save-key-checkbox" class="text-base">
 			Save key to cookies?
 		</Checkbox>
 	</div>

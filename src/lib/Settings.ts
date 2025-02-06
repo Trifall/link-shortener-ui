@@ -10,7 +10,7 @@ export const saveSettings = (settings: Settings): void => {
 
 export const loadSettings = (): Settings => {
 	const data = localStorage.getItem(SETTINGS_KEY);
-	return data ? JSON.parse(data) : { saveKey: true };
+	return data ? JSON.parse(data) : { saveKey: false };
 };
 
 // Key cookie utilities
