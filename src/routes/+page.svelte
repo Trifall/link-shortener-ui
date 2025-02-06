@@ -179,7 +179,7 @@
 							<a
 								href={Links.FRONTEND_REPO}
 								target="_blank"
-								class="flex min-w-[165px] max-w-[165px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
+								class="flex min-w-[165px] max-w-[165px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 transition-colors hover:bg-gray-600"
 							>
 								<Github />
 								View on GitHub
@@ -187,7 +187,7 @@
 							<a
 								data-sveltekit-reload
 								href={Links.DASHBOARD}
-								class="flex min-w-[200px] max-w-[200px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
+								class="flex min-w-[200px] max-w-[200px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 transition-colors hover:bg-gray-600"
 							>
 								<SquareArrowUpRight />
 								View live Dashboard
@@ -213,7 +213,7 @@
 							<a
 								href={Links.BACKEND_REPO}
 								target="_blank"
-								class="flex min-w-[165px] max-w-[165px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
+								class="flex min-w-[165px] max-w-[165px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 transition-colors hover:bg-gray-600"
 							>
 								<Github />
 								View on GitHub
@@ -221,7 +221,7 @@
 							<a
 								href={Links.DOCS}
 								target="_blank"
-								class="flex min-w-[165px] max-w-[165px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 text-blue-400 transition-colors hover:bg-gray-600"
+								class="flex min-w-[165px] max-w-[165px] flex-1 items-center justify-center gap-1 rounded-lg bg-gray-700 px-2 py-3 transition-colors hover:bg-gray-600"
 							>
 								<SquareArrowUpRight />
 								View live Docs
