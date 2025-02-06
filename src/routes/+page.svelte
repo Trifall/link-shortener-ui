@@ -52,7 +52,7 @@
 	>
 		{#if visibleSections.has('hero')}
 			<div in:fade={{ duration: 1000 }} class="flex flex-col items-center justify-center">
-				<AnimatedGradientText spanClassName="mb-6 text-center text-6xl font-bold md:text-7xl"
+				<AnimatedGradientText spanClassName="mb-6 h-20 text-center text-6xl font-bold md:text-7xl"
 					>Simplify Your Links</AnimatedGradientText
 				>
 				<p
