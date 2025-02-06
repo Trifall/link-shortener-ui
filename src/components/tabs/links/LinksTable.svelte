@@ -45,7 +45,7 @@
 
 	// error handling
 	const handleError = (err: unknown) => {
-		console.error('Fetch error:', err);
+		// console.error('Fetch error:', err);
 		error = err instanceof Error ? err.message : 'Failed to fetch links';
 	};
 

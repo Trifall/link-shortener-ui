@@ -51,7 +51,7 @@
 			const data = await response.json();
 			keys = structuredClone(data.keys);
 		} catch (err) {
-			console.error('Fetch error:', err);
+			// console.error('Fetch error:', err);
 			error = err instanceof Error ? err.message : 'Failed to fetch keys';
 		} finally {
 			isLoading = false;
